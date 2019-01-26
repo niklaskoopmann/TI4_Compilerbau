@@ -1,3 +1,5 @@
+package DFAGeneration;
+
 import java.util.Set;
 
 public class DFAState implements Comparable<DFAState>{

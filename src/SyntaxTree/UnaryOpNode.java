@@ -1,3 +1,7 @@
+package SyntaxTree;
+
+import Visitor.Visitor;
+
 public class UnaryOpNode extends SyntaxNode implements Visitable{
 
     public String operator;

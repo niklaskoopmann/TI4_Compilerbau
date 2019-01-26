@@ -1,3 +1,7 @@
+package SyntaxTree;
+
+import Visitor.Visitor;
+
 public class OperandNode extends SyntaxNode implements Visitable {
 
     public int position;

@@ -1,3 +1,10 @@
+package Visitor;
+
+import SyntaxTree.BinOpNode;
+import SyntaxTree.OperandNode;
+import SyntaxTree.UnaryOpNode;
+import SyntaxTree.Visitable;
+
 public class DepthFirstIterator {
 
     public static void traverse(Visitable root, Visitor visitor) {
