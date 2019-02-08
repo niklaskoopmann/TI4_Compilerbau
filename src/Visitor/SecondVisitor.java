@@ -4,7 +4,9 @@ import DFAGeneration.FollowPosTableEntry;
 import SyntaxTree.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -45,16 +47,36 @@ public class SecondVisitor implements Visitor{
 
         FollowPosTableEntry entry = new FollowPosTableEntry(node.position, node.symbol);
 
+        Set<Integer> thisEntryFollowPosValues = new HashSet<>();
 
+        // todo calculate followpos shit
 
         followPosTableEntryList.add(entry);
     }
 
     public void visit(UnaryOpNode node){
 
+        // if operation is Kleene star
+        if(node.operator.equals("*")){
+
+            for (int lastPosValue :
+                    ) {
+                
+            }
+
+        }
+
+        // if operation is Kleene plus
+        if(node.operator.equals("+")){
+
+        }
     }
 
     public void visit(BinOpNode node){
 
+        // if operation is concatenation
+        if(node.operator.equals("°")){
+
+        }
     }
 }
