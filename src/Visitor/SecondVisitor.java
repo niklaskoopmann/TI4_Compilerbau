@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
- *
- * @author niklaskoopmann
+ * for whole class:
+ * @author NiklasKoopmann
  *
  **/
 
@@ -47,28 +47,27 @@ public class SecondVisitor implements Visitor{
 
         FollowPosTableEntry entry = new FollowPosTableEntry(node.position, node.symbol);
 
-        Set<Integer> thisEntryFollowPosValues = new HashSet<>();
+        Set<Integer> emptyFollowPosValues = new HashSet<>();
 
-        // todo calculate followpos shit
+        // todo something with the followpos set
 
         followPosTableEntryList.add(entry);
     }
 
     public void visit(UnaryOpNode node){
 
-        // if operation is Kleene star
-        if(node.operator.equals("*")){
+        Set<Integer> followPosValues = new HashSet<>();
 
-            for (int lastPosValue :
-                    ) {
-                
+        // if operation is Kleene star or Kleene plus
+        if(node.operator.equals("*") || node.operator.equals("+")){
+
+            // iterate through all nodes in lastpos
+            for (int lastPosValue : node.lastpos) {
+
+                // followpos(node at lastPosValue) += firstpos(node)
+                // and update entry set
+                followPosTableEntryList.get(lastPosValue).followpos.addAll(node.firstpos);
             }
-
-        }
-
-        // if operation is Kleene plus
-        if(node.operator.equals("+")){
-
         }
     }
 
@@ -77,6 +76,12 @@ public class SecondVisitor implements Visitor{
         // if operation is concatenation
         if(node.operator.equals("°")){
 
+            for (int lastPosValue : node) { // todo how to access left child's lastpos set?
+
+                // followpos(node at lastPosValue) += firstpos(node)
+                // and update entry set
+                followPosTableEntryList.get(lastPosValue).followpos.addAll(node.firstpos);
+            }
         }
     }
 }
