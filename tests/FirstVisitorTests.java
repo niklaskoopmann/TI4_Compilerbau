@@ -5,6 +5,9 @@ import Visitor.FirstVisitor;
 import org.junit.Test;
 
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.junit.Assert.assertEquals;
 
 public class FirstVisitorTests {
@@ -70,5 +73,32 @@ public class FirstVisitorTests {
         assertEquals(false, tester.isOperandNullable(b));
         assertEquals(false, tester.isBinOpNullable(node));
         assertEquals(true, tester.isUnaryNullable(un));
+    }
+
+    // todo: test fails
+    @Test
+    public void testSetFirstAndLastPos(){
+        FirstVisitor tester = new FirstVisitor(); // tested class
+
+        OperandNode a = new OperandNode("a");
+        OperandNode b = new OperandNode("b");
+        BinOpNode node = new BinOpNode("|", a, b);
+        UnaryOpNode un = new UnaryOpNode("*", node);
+        OperandNode a2 = new OperandNode("a");
+        BinOpNode node2 = new BinOpNode("°", un, a2);
+
+        // assert statements
+        assertEquals(false, tester.isOperandNullable(a));
+        assertEquals(false, tester.isOperandNullable(b));
+
+
+
+        Set<Integer> set = new HashSet<>();
+
+
+        set.add(3);
+        assertEquals(set,tester.setFirstAndLastPos(a));
+        assertEquals(set,tester.setFirstAndLastPos(b));
+        assertEquals(set,tester.setFirstAndLastPos(a2));
     }
 }

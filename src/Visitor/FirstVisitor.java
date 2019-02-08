@@ -36,14 +36,16 @@ public class FirstVisitor implements Visitor {
     // checks if node is a leaf
     // leaf = node without descendant = operand node
 
-
+// todo: test all
     public Set<Integer> setFirstAndLastPos(OperandNode node){
         Set<Integer> set = new HashSet<>();
         if (node.symbol.equals("epsilon")){
             set.clear();
         }
         else{
+            // todo: only for test
             set.add(positionCounter);
+            positionCounter++;
         }
         return set;
     }
@@ -169,5 +171,3 @@ public class FirstVisitor implements Visitor {
         }
     }
 }
-// todo: firstpos + junit tests
-// todo: lastpos + junit tests
