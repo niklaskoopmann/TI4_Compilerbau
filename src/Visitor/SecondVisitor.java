@@ -3,10 +3,7 @@ package Visitor;
 import DFAGeneration.FollowPosTableEntry;
 import SyntaxTree.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * for whole class:
@@ -24,22 +21,20 @@ public class SecondVisitor implements Visitor{
      */
 
     // Attributes
-    private ArrayList<FollowPosTableEntry> followPosTableEntryList;
+    private SortedMap<Integer, FollowPosTableEntry> followPosTableEntries;
     private DepthFirstIterator depthFirstIterator;
 
     // Constructor
     public SecondVisitor(){
 
-        followPosTableEntryList = new ArrayList<>();
+        followPosTableEntries = new TreeMap<>();
         depthFirstIterator = new DepthFirstIterator();
     }
 
     // traverse method
-    public ArrayList<FollowPosTableEntry> visitTreeNodes(Visitable root){
+    public void visitTreeNodes(Visitable root) {
 
         depthFirstIterator.traverse(root, this);
-
-        return followPosTableEntryList;
     }
 
     // visit method
@@ -47,11 +42,9 @@ public class SecondVisitor implements Visitor{
 
         FollowPosTableEntry entry = new FollowPosTableEntry(node.position, node.symbol);
 
-        Set<Integer> emptyFollowPosValues = new HashSet<>();
+        entry.followpos.clear();
 
-        // todo something with the followpos set
-
-        followPosTableEntryList.add(entry);
+        followPosTableEntries.put(node.position, entry);
     }
 
     public void visit(UnaryOpNode node){
@@ -66,7 +59,7 @@ public class SecondVisitor implements Visitor{
 
                 // followpos(node at lastPosValue) += firstpos(node)
                 // and update entry set
-                followPosTableEntryList.get(lastPosValue).followpos.addAll(node.firstpos);
+                followPosTableEntries.get(lastPosValue).followpos.addAll(node.firstpos);
             }
         }
     }
@@ -76,11 +69,12 @@ public class SecondVisitor implements Visitor{
         // if operation is concatenation
         if(node.operator.equals("°")){
 
-            for (int lastPosValue : node) { // todo how to access left child's lastpos set?
+            // iterate through all nodes in lastpos of this node's left child
+            for (int lastPosValue : ((SyntaxNode)node.left).lastpos) {
 
-                // followpos(node at lastPosValue) += firstpos(node)
+                // followpos(node at lastPosValue) += lastpos(right child)
                 // and update entry set
-                followPosTableEntryList.get(lastPosValue).followpos.addAll(node.firstpos);
+                followPosTableEntries.get(lastPosValue).followpos.addAll(((SyntaxNode)node.right).lastpos);
             }
         }
     }
