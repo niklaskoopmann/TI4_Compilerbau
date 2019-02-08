@@ -9,7 +9,7 @@ public class UnaryOpNode extends SyntaxNode implements Visitable{
 
     public UnaryOpNode(String operator, Visitable subNode) {
         this.operator = operator;
-        this.subNode  = subNode;
+        this.subNode = subNode;
     }
 
     @Override
