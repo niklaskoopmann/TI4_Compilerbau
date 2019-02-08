@@ -25,19 +25,53 @@ public class TopDownParser {
     }
 
     // logic
-    private SyntaxNode start(char c){
+    private SyntaxNode start(){
 
-        if(c == '#') return new OperandNode("#");
+        if(regex.charAt(0) == '#') return new OperandNode("#");
 
-        else if(c == '('){
+        else if(regex.charAt(0) == '('){
 
             OperandNode leaf = new OperandNode("#");
 
-            return new BinOpNode("°", regExp(null), leaf);
+            return new BinOpNode("°", regExp(null, 1), leaf);
         }
 
         else return null;
     }
 
-    private SyntaxNode regExp();
+    private SyntaxNode regExp(SyntaxNode parent, int pos){
+
+        int charAtPosASCII = (int)regex.charAt(pos);
+
+        if((charAtPosASCII >= 48 && charAtPosASCII <= 57) || (charAtPosASCII >= 65 && charAtPosASCII <= 90) || (charAtPosASCII >= 97 && charAtPosASCII <= 122)){ // 0 ... 9 | a ... z | A ... Z
+            // todo logic
+        }
+
+        else return null;
+    }
+
+    private SyntaxNode reApostrophe(SyntaxNode parent, int pos){
+
+    }
+
+    private SyntaxNode term(SyntaxNode parent, int pos){
+
+    }
+
+    private SyntaxNode factor(SyntaxNode parent, int pos){
+
+    }
+
+    private SyntaxNode hOp(SyntaxNode parent, int pos){
+
+    }
+
+    private SyntaxNode elem(SyntaxNode parent, int pos){
+
+    }
+
+    private SyntaxNode alphaNum(SyntaxNode parent, int pos){
+
+    }
+
 }
