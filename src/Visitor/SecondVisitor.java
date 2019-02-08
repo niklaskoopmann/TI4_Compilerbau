@@ -76,11 +76,12 @@ public class SecondVisitor implements Visitor{
         // if operation is concatenation
         if(node.operator.equals("°")){
 
-            for (int lastPosValue : node) { // todo how to access left child's lastpos set?
+            // iterate through all nodes in lastpos of this node's left child
+            for (int lastPosValue : ((SyntaxNode)node.left).lastpos) {
 
-                // followpos(node at lastPosValue) += firstpos(node)
+                // followpos(node at lastPosValue) += lastpos(right child)
                 // and update entry set
-                followPosTableEntryList.get(lastPosValue).followpos.addAll(node.firstpos);
+                followPosTableEntryList.get(lastPosValue).followpos.addAll(((SyntaxNode)node.right).lastpos);
             }
         }
     }
