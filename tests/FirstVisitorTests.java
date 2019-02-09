@@ -2,13 +2,11 @@ import SyntaxTree.BinOpNode;
 import SyntaxTree.OperandNode;
 import SyntaxTree.UnaryOpNode;
 import Visitor.FirstVisitor;
-import org.junit.Test;
-
-
+import org.junit.jupiter.api.Test;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class FirstVisitorTests {
 
@@ -20,8 +18,8 @@ public class FirstVisitorTests {
         OperandNode node2 = new OperandNode("epsilon");
 
         // assert statements
-        assertEquals(false, tester.isOperandNullable(node));
-        assertEquals(true, tester.isOperandNullable(node2));
+        assertFalse(tester.isOperandNullable(node));
+        assertTrue(tester.isOperandNullable(node2));
     }
 
     @Test
@@ -34,9 +32,9 @@ public class FirstVisitorTests {
 
 
         // assert statements
-        assertEquals(false, tester.isOperandNullable(a));
-        assertEquals(false, tester.isOperandNullable(b));
-        assertEquals(false, tester.isBinOpNullable(node));
+        assertFalse(tester.isOperandNullable(a));
+        assertFalse(tester.isOperandNullable(b));
+        assertFalse(tester.isBinOpNullable(node));
     }
     @Test
     public void testBinOperandNode_2() {
@@ -50,13 +48,13 @@ public class FirstVisitorTests {
         BinOpNode node2 = new BinOpNode("°", un, a2);
 
         // assert statements
-        assertEquals(false, tester.isOperandNullable(a));
-        assertEquals(false, tester.isOperandNullable(b));
-        assertEquals(false, tester.isBinOpNullable(node));
-        assertEquals(true, tester.isUnaryNullable(un));
-        assertEquals(false, tester.isOperandNullable(a2));
+        assertFalse(tester.isOperandNullable(a));
+        assertFalse(tester.isOperandNullable(b));
+        assertFalse(tester.isBinOpNullable(node));
+        assertTrue(tester.isUnaryNullable(un));
+        assertFalse(tester.isOperandNullable(a2));
         // 0 and 1 equals 0 in AND logic
-        assertEquals(false, tester.isBinOpNullable(node2));
+        assertFalse(tester.isBinOpNullable(node2));
     }
 
     @Test
@@ -69,10 +67,10 @@ public class FirstVisitorTests {
         UnaryOpNode un = new UnaryOpNode("*", node);
 
         // assert statements
-        assertEquals(false, tester.isOperandNullable(a));
-        assertEquals(false, tester.isOperandNullable(b));
-        assertEquals(false, tester.isBinOpNullable(node));
-        assertEquals(true, tester.isUnaryNullable(un));
+        assertFalse(tester.isOperandNullable(a));
+        assertFalse(tester.isOperandNullable(b));
+        assertFalse(tester.isBinOpNullable(node));
+        assertTrue(tester.isUnaryNullable(un));
     }
 
     // todo: test fails
@@ -88,8 +86,8 @@ public class FirstVisitorTests {
         BinOpNode node2 = new BinOpNode("°", un, a2);
 
         // assert statements
-        assertEquals(false, tester.isOperandNullable(a));
-        assertEquals(false, tester.isOperandNullable(b));
+        assertFalse(tester.isOperandNullable(a));
+        assertFalse(tester.isOperandNullable(b));
 
 
 
