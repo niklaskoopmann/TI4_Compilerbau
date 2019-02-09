@@ -9,10 +9,11 @@ import org.junit.Test;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class FirstVisitorTests {
 
+    // tests work if executed singularly (because of private static counter)
 
     @Test
     public void testNullableOperandNode() {
@@ -33,11 +34,10 @@ public class FirstVisitorTests {
         OperandNode b = new OperandNode("b");
         BinOpNode node = new BinOpNode("|", a, b);
 
+        a.nullable = tester.isOperandNullable(a);
+        b.nullable = tester.isOperandNullable(b);
 
-        // assert statements
-        assertEquals(false, tester.isOperandNullable(a));
-        assertEquals(false, tester.isOperandNullable(b));
-        assertEquals(false, tester.isBinOpNullable(node));
+        assertFalse(tester.isBinOpNullable(node));
     }
     @Test
     public void testBinOperandNode_2() {
@@ -50,14 +50,15 @@ public class FirstVisitorTests {
         OperandNode a2 = new OperandNode("a");
         BinOpNode node2 = new BinOpNode("°", un, a2);
 
-        // assert statements
-        assertEquals(false, tester.isOperandNullable(a));
-        assertEquals(false, tester.isOperandNullable(b));
-        assertEquals(false, tester.isBinOpNullable(node));
-        assertEquals(true, tester.isUnaryNullable(un));
-        assertEquals(false, tester.isOperandNullable(a2));
+        a.nullable = tester.isOperandNullable(a);
+        b.nullable = tester.isOperandNullable(b);
+        node.nullable = tester.isBinOpNullable(node);
+        un.nullable = tester.isUnaryNullable(un);
+        a2.nullable = tester.isOperandNullable(a2);
+
+        // assert statement
         // 0 and 1 equals 0 in AND logic
-        assertEquals(false, tester.isBinOpNullable(node2));
+        assertFalse(tester.isBinOpNullable(node2));
     }
 
     @Test
@@ -69,11 +70,12 @@ public class FirstVisitorTests {
         BinOpNode node = new BinOpNode("|", a, b);
         UnaryOpNode un = new UnaryOpNode("*", node);
 
+        a.nullable = tester.isOperandNullable(a);
+        b.nullable = tester.isOperandNullable(b);
+        node.nullable = tester.isBinOpNullable(node);
+
         // assert statements
-        assertEquals(false, tester.isOperandNullable(a));
-        assertEquals(false, tester.isOperandNullable(b));
-        assertEquals(false, tester.isBinOpNullable(node));
-        assertEquals(true, tester.isUnaryNullable(un));
+        assertTrue(tester.isUnaryNullable(un));
     }
 
     // works
@@ -88,19 +90,18 @@ public class FirstVisitorTests {
         OperandNode a2 = new OperandNode("a");
         BinOpNode node2 = new BinOpNode("°", un, a2);
 
-        tester.isOperandNullable(a);
-        tester.isOperandNullable(b);
-        tester.isOperandNullable(a2);
-
+        a.nullable = tester.isOperandNullable(a);
+        b.nullable = tester.isOperandNullable(b);
+        a2.nullable = tester.isOperandNullable(a2);
 
         Set<Integer> set = new HashSet<>();
-        tester.setFirstAndLastPos(a);
-        tester.setFirstAndLastPos(b);
+        a.firstpos.addAll(tester.setFirstAndLastPos(a));
+        b.firstpos.addAll(tester.setFirstAndLastPos(b));
+
         set.add(3);
         // assert statement
         assertEquals(set,tester.setFirstAndLastPos(a2));
     }
-
 
    // works
     @Test
@@ -110,9 +111,9 @@ public class FirstVisitorTests {
         OperandNode b = new OperandNode("b");
         BinOpNode node = new BinOpNode("|", a, b);
 
-        tester.isOperandNullable(a);
-        tester.isOperandNullable(b);
-        tester.isBinOpNullable(node);
+        a.nullable = tester.isOperandNullable(a);
+        b.nullable = tester.isOperandNullable(b);
+        node.nullable = tester.isBinOpNullable(node);
 
         Set<Integer> set = new HashSet<>();
         set.add(1);
@@ -135,12 +136,12 @@ public class FirstVisitorTests {
         OperandNode a2 = new OperandNode("a");
         BinOpNode node2 = new BinOpNode("°", un, a2);
 
-        tester.isOperandNullable(a);
-        tester.isOperandNullable(b);
-        tester.isBinOpNullable(node);
-        tester.isUnaryNullable(un);
-        tester.isOperandNullable(a2);
-        tester.isBinOpNullable(node2);
+        a.nullable = tester.isOperandNullable(a);
+        b.nullable = tester.isOperandNullable(b);
+        node.nullable = tester.isBinOpNullable(node);
+        un.nullable = tester.isUnaryNullable(un);
+        a2.nullable = tester.isOperandNullable(a2);
+        node2.nullable = tester.isBinOpNullable(node2);
 
         Set<Integer> set = new HashSet<>();
         set.add(1);
@@ -166,9 +167,9 @@ public class FirstVisitorTests {
         OperandNode b = new OperandNode("b");
         BinOpNode node = new BinOpNode("|", a, b);
 
-        tester.isOperandNullable(a);
-        tester.isOperandNullable(b);
-        tester.isBinOpNullable(node);
+        a.nullable = tester.isOperandNullable(a);
+        b.nullable = tester.isOperandNullable(b);
+        node.nullable = tester.isBinOpNullable(node);
 
         Set<Integer> set = new HashSet<>();
         set.add(1);
@@ -199,12 +200,12 @@ public class FirstVisitorTests {
         OperandNode a2 = new OperandNode("a");
         BinOpNode node2 = new BinOpNode("°", un, a2);
 
-        tester.isOperandNullable(a);
-        tester.isOperandNullable(b);
-        tester.isBinOpNullable(node);
-        tester.isUnaryNullable(un);
-        tester.isOperandNullable(a2);
-        tester.isBinOpNullable(node2);
+        a.nullable = tester.isOperandNullable(a);
+        b.nullable = tester.isOperandNullable(b);
+        node.nullable = tester.isBinOpNullable(node);
+        un.nullable = tester.isUnaryNullable(un);
+        a2.nullable = tester.isOperandNullable(a2);
+        node2.nullable = tester.isBinOpNullable(node2);
 
         Set<Integer> set = new HashSet<>();
         set.add(3);
@@ -244,10 +245,10 @@ public class FirstVisitorTests {
         BinOpNode node = new BinOpNode("|", a, b);
         UnaryOpNode un = new UnaryOpNode("*", node);
 
-        tester.isOperandNullable(a);
-        tester.isOperandNullable(b);
-        tester.isBinOpNullable(node);
-        tester.isUnaryNullable(un);
+        a.nullable = tester.isOperandNullable(a);
+        b.nullable = tester.isOperandNullable(b);
+        node.nullable = tester.isBinOpNullable(node);
+        un.nullable = tester.isUnaryNullable(un);
 
 
         Set<Integer> set = new HashSet<>();
@@ -281,10 +282,10 @@ public class FirstVisitorTests {
         BinOpNode node = new BinOpNode("|", a, b);
         UnaryOpNode un = new UnaryOpNode("*", node);
 
-        tester.isOperandNullable(a);
-        tester.isOperandNullable(b);
-        tester.isBinOpNullable(node);
-        tester.isUnaryNullable(un);
+        a.nullable = tester.isOperandNullable(a);
+        b.nullable = tester.isOperandNullable(b);
+        node.nullable = tester.isBinOpNullable(node);
+        un.nullable = tester.isUnaryNullable(un);
 
 
         Set<Integer> set = new HashSet<>();

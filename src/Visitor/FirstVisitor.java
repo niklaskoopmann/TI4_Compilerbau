@@ -53,7 +53,7 @@ public class FirstVisitor implements Visitor {
         }
         else{
             // todo: only for test, can be deleted later
-             //positionCounter++;
+            positionCounter++;
             set.add(positionCounter);
         }
         return set;
