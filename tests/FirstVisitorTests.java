@@ -1,6 +1,5 @@
 import SyntaxTree.BinOpNode;
 import SyntaxTree.OperandNode;
-import SyntaxTree.SyntaxNode;
 import SyntaxTree.UnaryOpNode;
 import Visitor.FirstVisitor;
 import org.junit.Test;
@@ -78,7 +77,6 @@ public class FirstVisitorTests {
         assertTrue(tester.isUnaryNullable(un));
     }
 
-    // works
     @Test
     public void testSetFirstAndLastPos(){
         FirstVisitor tester = new FirstVisitor(); // tested class
@@ -103,7 +101,6 @@ public class FirstVisitorTests {
         assertEquals(set,tester.setFirstAndLastPos(a2));
     }
 
-   // works
     @Test
     public void testSetFirstPosBinOp_Or(){
         FirstVisitor tester = new FirstVisitor(); // tested class
@@ -125,7 +122,6 @@ public class FirstVisitorTests {
         // assert statement
         assertEquals(set,tester.setFirstPos(node));
     }
-    // works
     @Test
     public void testSetFirstPosBinOp_Concat(){
         FirstVisitor tester = new FirstVisitor(); // tested class
@@ -159,7 +155,6 @@ public class FirstVisitorTests {
         assertEquals(set,tester.setFirstPos(node2));
     }
 
-    // works
     @Test
     public void testSetLastPosBinOp_Or(){
         FirstVisitor tester = new FirstVisitor(); // tested class
@@ -189,7 +184,6 @@ public class FirstVisitorTests {
         // assert statement
         assertEquals(set,tester.setLastPos(node));
     }
-    // works
     @Test
     public void testSetLastPosBinOp_Concat(){
         FirstVisitor tester = new FirstVisitor(); // tested class
@@ -235,7 +229,6 @@ public class FirstVisitorTests {
         assertEquals(set,tester.setLastPos(node2));
     }
 
-    // works
     @Test
     public void testSetFirstPosUnaryOp(){
         FirstVisitor tester = new FirstVisitor(); // tested class
@@ -272,7 +265,6 @@ public class FirstVisitorTests {
         // assert statement
         assertEquals(set,tester.setFirstPos(un));
     }
-    // works
     @Test
     public void testSetLastPosUnaryOp(){
         FirstVisitor tester = new FirstVisitor(); // tested class
