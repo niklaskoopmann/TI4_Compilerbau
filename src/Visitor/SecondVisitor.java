@@ -3,15 +3,18 @@ package Visitor;
 import DFAGeneration.FollowPosTableEntry;
 import SyntaxTree.*;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 /**
  * for whole class:
- * @author NiklasKoopmann
  *
+ * @author NiklasKoopmann
  **/
 
-public class SecondVisitor implements Visitor{
+public class SecondVisitor implements Visitor {
 
     /*
 
@@ -25,7 +28,7 @@ public class SecondVisitor implements Visitor{
     private DepthFirstIterator depthFirstIterator;
 
     // Constructor
-    public SecondVisitor(){
+    public SecondVisitor() {
 
         followPosTableEntries = new TreeMap<>();
         depthFirstIterator = new DepthFirstIterator();
@@ -34,11 +37,11 @@ public class SecondVisitor implements Visitor{
     // traverse method
     public void visitTreeNodes(Visitable root) {
 
-        depthFirstIterator.traverse(root, this);
+        DepthFirstIterator.traverse(root, this);
     }
 
     // visit method
-    public void visit(OperandNode node){
+    public void visit(OperandNode node) {
 
         FollowPosTableEntry entry = new FollowPosTableEntry(node.position, node.symbol);
 
@@ -47,12 +50,12 @@ public class SecondVisitor implements Visitor{
         followPosTableEntries.put(node.position, entry);
     }
 
-    public void visit(UnaryOpNode node){
+    public void visit(UnaryOpNode node) {
 
         Set<Integer> followPosValues = new HashSet<>();
 
         // if operation is Kleene star or Kleene plus
-        if(node.operator.equals("*") || node.operator.equals("+")){
+        if (node.operator.equals("*") || node.operator.equals("+")) {
 
             // iterate through all nodes in lastpos
             for (int lastPosValue : node.lastpos) {
@@ -64,17 +67,17 @@ public class SecondVisitor implements Visitor{
         }
     }
 
-    public void visit(BinOpNode node){
+    public void visit(BinOpNode node) {
 
         // if operation is concatenation
-        if(node.operator.equals("°")){
+        if (node.operator.equals("°")) {
 
             // iterate through all nodes in lastpos of this node's left child
-            for (int lastPosValue : ((SyntaxNode)node.left).lastpos) {
+            for (int lastPosValue : ((SyntaxNode) node.left).lastpos) {
 
                 // followpos(node at lastPosValue) += lastpos(right child)
                 // and update entry set
-                followPosTableEntries.get(lastPosValue).followpos.addAll(((SyntaxNode)node.right).lastpos);
+                followPosTableEntries.get(lastPosValue).followpos.addAll(((SyntaxNode) node.right).lastpos);
             }
         }
     }
