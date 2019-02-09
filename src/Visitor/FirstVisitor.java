@@ -7,27 +7,35 @@ import java.util.Set;
 
 public class FirstVisitor implements Visitor {
     private DepthFirstIterator firstIterator;
-    private int positionCounter = 1;
+    // all objects share same variable
+    private static int positionCounter = 0;
+
 
     public void visit(OperandNode node) {
-        node.position = positionCounter;
-        positionCounter++;
-        isOperandNullable(node);
+        node.nullable = isOperandNullable(node);
 
-        setFirstAndLastPos(node);
+        node.firstpos.addAll(setFirstAndLastPos(node));
+        node.lastpos.addAll(setFirstAndLastPos(node));
+
+        positionCounter++;
     }
 
     public void visit(BinOpNode node) {
-        isBinOpNullable(node);
-        setFirstPos(node);
-        setLastPos(node);
+        node.nullable = isBinOpNullable(node);
 
+        node.firstpos.addAll(setFirstPos(node));
+        node.lastpos.addAll(setLastPos(node));
+
+        positionCounter++;
     }
 
     public void visit(UnaryOpNode node) {
-        isUnaryNullable(node);
-        setFirstPos(node);
-        setLastPos(node);
+        node.nullable = isUnaryNullable(node);
+
+        node.firstpos.addAll(setFirstPos(node));
+        node.lastpos.addAll(setLastPos(node));
+
+        positionCounter++;
     }
 
 
@@ -36,20 +44,22 @@ public class FirstVisitor implements Visitor {
     // checks if node is a leaf
     // leaf = node without descendant = operand node
 
-// todo: test all
+
+    // works
     public Set<Integer> setFirstAndLastPos(OperandNode node){
         Set<Integer> set = new HashSet<>();
         if (node.symbol.equals("epsilon")){
             set.clear();
         }
         else{
-            // todo: only for test
+            // todo: only for test, can be deleted later
+             //positionCounter++;
             set.add(positionCounter);
-            positionCounter++;
         }
         return set;
     }
 
+    // works
     public Set<Integer> setFirstPos (UnaryOpNode node){
         Set<Integer> set = new HashSet<>();
         if (node.operator.equals("*") || (node.operator.equals("+") || (node.operator.equals("?")))){
@@ -58,6 +68,7 @@ public class FirstVisitor implements Visitor {
         return set;
     }
 
+    // works
     public Set<Integer> setLastPos (UnaryOpNode node){
         Set<Integer> set = new HashSet<>();
         if (node.operator.equals("*") || (node.operator.equals("+") || (node.operator.equals("?")))){
@@ -66,25 +77,27 @@ public class FirstVisitor implements Visitor {
         return set;
     }
 
+    // works
     public Set<Integer> setFirstPos (BinOpNode node){
         Set<Integer> set = new HashSet<>();
         if (node.operator.equals("|")){
-            set = ((SyntaxNode)node.left).firstpos;
+            set.addAll(((SyntaxNode)node.left).firstpos);
             set.addAll(((SyntaxNode)node.right).firstpos);
         }
         else if(node.operator.equals("°")){
             // todo: war c1 das linke kind?
             if (((SyntaxNode)node.left).nullable){
-                set = ((SyntaxNode)node.left).firstpos;
+                set.addAll(((SyntaxNode)node.left).firstpos);
                 set.addAll(((SyntaxNode)node.right).firstpos);
             }
             else{
-                set = ((SyntaxNode)node.left).firstpos;
+                set.addAll(((SyntaxNode)node.left).firstpos);
             }
         }
         return set;
     }
 
+    // works
     public Set<Integer> setLastPos (BinOpNode node){
         Set<Integer> set = new HashSet<>();
         if (node.operator.equals("|")){
@@ -112,15 +125,12 @@ public class FirstVisitor implements Visitor {
     public boolean isUnaryNullable(UnaryOpNode node) {
         // has one descendant
         if (node.operator.equals("*") || node.operator.equals("?")) {
-            node.nullable = true;
             return true;
         } else if (node.operator.equals("?")) {
             // is automatically a leaf -> no children
             if (((OperandNode) node.subNode).symbol.equals("epsilon")) {
-                node.nullable = true;
                 return true;
             } else {
-                node.nullable = false;
                 return false;
             }
         }
@@ -133,24 +143,19 @@ public class FirstVisitor implements Visitor {
 
             // two operands or UnaryOp and operand or binaryop and operand
             if ((((SyntaxNode) node.left).nullable) || ((SyntaxNode) node.right).nullable) {
-                node.nullable = true;
                 return true;
             } else {
-                node.nullable = false;
                 return false;
             }
         }
         //concatenation
         else if (node.operator.equals("°")) {
             if ((((SyntaxNode) node.left).nullable) && ((SyntaxNode) node.right).nullable) {
-                node.nullable = true;
                 return true;
             } else {
-                node.nullable = false;
                 return false;
             }
         } else if (node.operator.equals("?")) {
-            node.nullable = true;
             return true;
         }
         else if (node.operator.equals("*")){
@@ -162,11 +167,9 @@ public class FirstVisitor implements Visitor {
     public boolean isOperandNullable(OperandNode node){
         // operands are always leafs
         if (node.symbol.equals("epsilon")){
-            node.nullable = true;
             return true;
         }
         else {
-            node.nullable = false;
             return false;
         }
     }
