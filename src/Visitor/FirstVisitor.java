@@ -1,3 +1,7 @@
+/**
+ * @author 6495875
+ */
+
 package Visitor;
 
 import SyntaxTree.*;

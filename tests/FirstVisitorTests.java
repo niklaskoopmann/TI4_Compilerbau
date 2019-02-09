@@ -1,3 +1,7 @@
+/**
+ * @author 6495875
+ */
+
 import SyntaxTree.BinOpNode;
 import SyntaxTree.OperandNode;
 import SyntaxTree.UnaryOpNode;
