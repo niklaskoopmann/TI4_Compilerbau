@@ -11,7 +11,7 @@ import java.util.TreeMap;
 /**
  * for whole class:
  *
- * @author NiklasKoopmann
+ * @author Niklas Koopmann (9742503)
  **/
 
 public class SecondVisitor implements Visitor {
@@ -40,7 +40,8 @@ public class SecondVisitor implements Visitor {
         DepthFirstIterator.traverse(root, this);
     }
 
-    // visit method
+    // visit methods
+
     public void visit(OperandNode node) {
 
         FollowPosTableEntry entry = new FollowPosTableEntry(node.position, node.symbol);
@@ -52,7 +53,7 @@ public class SecondVisitor implements Visitor {
 
     public void visit(UnaryOpNode node) {
 
-        Set<Integer> followPosValues = new HashSet<>();
+        Set<Integer> followPosValues = new HashSet<>(); // todo Why did I add this???
 
         // if operation is Kleene star or Kleene plus
         if (node.operator.equals("*") || node.operator.equals("+")) {
@@ -80,5 +81,25 @@ public class SecondVisitor implements Visitor {
                 followPosTableEntries.get(lastPosValue).followpos.addAll(((SyntaxNode) node.right).lastpos);
             }
         }
+    }
+
+    // Getter methods
+
+    public SortedMap<Integer, FollowPosTableEntry> getFollowPosTableEntries() {
+        return followPosTableEntries;
+    }
+
+    public DepthFirstIterator getDepthFirstIterator() {
+        return depthFirstIterator;
+    }
+
+    // Setter methods
+
+    public void setFollowPosTableEntries(SortedMap<Integer, FollowPosTableEntry> followPosTableEntries) {
+        this.followPosTableEntries = followPosTableEntries;
+    }
+
+    public void setDepthFirstIterator(DepthFirstIterator depthFirstIterator) {
+        this.depthFirstIterator = depthFirstIterator;
     }
 }
