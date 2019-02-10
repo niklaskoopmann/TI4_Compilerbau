@@ -63,6 +63,7 @@ public class SecondVisitor implements Visitor {
 
                 // followpos(node at lastPosValue) += firstpos(node)
                 // and update entry set
+                // todo How to update the node at the position lastPosValue?
                 followPosTableEntries.get(lastPosValue).followpos.addAll(node.firstpos);
             }
         }
