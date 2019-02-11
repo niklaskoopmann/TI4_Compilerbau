@@ -18,4 +18,13 @@ public class BinOpNode extends SyntaxNode implements Visitable{
     public void accept(Visitor visitor) {
         visitor.visit(this);
     }
+
+    @Override
+    public String toString() {
+        return "BinOpNode{" +
+                "operator='" + operator + '\'' +
+                ", left=" + left.toString() +
+                ", right=" + right.toString() +
+                '}';
+    }
 }

@@ -12,19 +12,19 @@ import SyntaxTree.Visitable;
  **/
 
 public class TopDownParser {
-    public String string;
-    public char symbol;
-    public int i;
+    private String string;
+    private char symbol;
+    private int i;
 
     public TopDownParser(String string) {
         this.string = string;
         symbol = string.charAt(0);
-        i = 0;
+        this.i = 0;
     }
 
     private void nextSymbol() {
-        i++;
-        if (i < string.length())
+        this.i++;
+        if (this.i < string.length())
             symbol = string.charAt(i);
     }
 
@@ -40,7 +40,7 @@ public class TopDownParser {
         }
     }
 
-    public Visitable regExp(Visitable node) {
+    private Visitable regExp(Visitable node) {
         //nur bei 0-9, A-Z, a-z und (
         if ((symbol >= 'A' && symbol <= 'Z') || (symbol >= 'a' && symbol <= 'z') || (symbol >= '0' && symbol <= '9') || (symbol == '('))
             return re(term(null));
@@ -49,7 +49,7 @@ public class TopDownParser {
         }
     }
 
-    public Visitable term(Visitable node) {
+    private Visitable term(Visitable node) {
         if ((symbol >= 'A' && symbol <= 'Z') || (symbol >= 'a' && symbol <= 'z') || (symbol >= '0' && symbol <= '9') || (symbol == '(')) {
             Visitable termReturn;
             if (node != null) {
@@ -66,7 +66,7 @@ public class TopDownParser {
         }
     }
 
-    public Visitable factor(Visitable node) {
+    private Visitable factor(Visitable node) {
         if ((symbol >= 'A' && symbol <= 'Z') || (symbol >= 'a' && symbol <= 'z') || (symbol >= '0' && symbol <= '9') || (symbol == '(')) {
             return hop(elem(null));
         } else {
@@ -74,7 +74,7 @@ public class TopDownParser {
         }
     }
 
-    public Visitable hop(Visitable node) {
+    private Visitable hop(Visitable node) {
         switch (symbol) {
             case '*':
                 nextSymbol();
@@ -90,7 +90,7 @@ public class TopDownParser {
         }
     }
 
-    public Visitable elem(Visitable node) {
+    private Visitable elem(Visitable node) {
         if (symbol != '(') {
             return alphanum(null);
         } else {
@@ -100,7 +100,7 @@ public class TopDownParser {
 
     }
 
-    public Visitable alphanum(Visitable node) {
+    private Visitable alphanum(Visitable node) {
         if ((symbol >= 'A' && symbol <= 'Z') || (symbol >= 'a' && symbol <= 'z') || (symbol >= '0' && symbol <= '9')) {
             Visitable opNode = new OperandNode(String.valueOf(symbol));
             nextSymbol();
@@ -109,7 +109,7 @@ public class TopDownParser {
         throw new RuntimeException("The expression is not a regular expression!");
     }
 
-    public Visitable re(Visitable node) {
+    private Visitable re(Visitable node) {
         switch (symbol) {
             case '|':
                 nextSymbol();
