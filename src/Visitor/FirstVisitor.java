@@ -10,7 +10,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class FirstVisitor implements Visitor {
-    private DepthFirstIterator firstIterator;
     // all objects share same variable
     private static int positionCounter = 0;
 
