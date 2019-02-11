@@ -26,7 +26,7 @@ public class GenericLexer {
 
         for (char letter : toCheckArray) {
 
-            DFAState nextState = transitionMatrix.get(0)[DFAGenerator.getAlphabet().indexOf(letter)];
+            DFAState nextState = transitionMatrix.get(DFAGenerator.getAlphabet().indexOf(letter) + 1)[];
 
             if(nextState != null){
 
