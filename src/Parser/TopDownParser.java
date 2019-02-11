@@ -6,147 +6,118 @@ import SyntaxTree.UnaryOpNode;
 import SyntaxTree.Visitable;
 
 /**
- * @author NiklasKoopmann
- * <p>
- * Feel free to correct this implementation (it has never been tested) and claim it as yours.
- */
+ * for whole class:
+ *
+ * @author Niklas Koopmann (9742503)
+ **/
 
 public class TopDownParser {
+    public String string;
+    public char symbol;
+    public int i;
 
-    // Attributes
-    private String regex;
-    private Visitable syntaxTreeRoot;
-
-    // Constructor
-    public TopDownParser(String regex) {
-        this.regex = regex;
+    public TopDownParser(String string) {
+        this.string = string;
+        symbol = string.charAt(0);
+        i = 0;
     }
 
-    // Getter methods
-    public String getRegex() {
-        return regex;
+    private void nextSymbol() {
+        i++;
+        if (i < string.length())
+            symbol = string.charAt(i);
     }
 
-    // Setter methods
-    public void setRegex(String regex) {
-        this.regex = regex;
+    public Visitable start(Visitable node) {
+        switch (symbol) {
+            case '#':
+                return new OperandNode("#");
+            case '(':
+                nextSymbol();
+                return new BinOpNode("°", regExp(null), new OperandNode("#"));
+            default:
+                throw new RuntimeException("The expression is not a regular expression!");
+        }
     }
 
-    public Visitable getSyntaxTreeRoot() {
-        return syntaxTreeRoot;
+    public Visitable regExp(Visitable node) {
+        //nur bei 0-9, A-Z, a-z und (
+        if ((symbol >= 'A' && symbol <= 'Z') || (symbol >= 'a' && symbol <= 'z') || (symbol >= '0' && symbol <= '9') || (symbol == '('))
+            return re(term(null));
+        else {
+            throw new RuntimeException("The expression is not a regular expression!");
+        }
     }
 
-    public void setSyntaxTreeRoot(Visitable syntaxTreeRoot) {
-        this.syntaxTreeRoot = syntaxTreeRoot;
+    public Visitable term(Visitable node) {
+        if ((symbol >= 'A' && symbol <= 'Z') || (symbol >= 'a' && symbol <= 'z') || (symbol >= '0' && symbol <= '9') || (symbol == '(')) {
+            Visitable termReturn;
+            if (node != null) {
+                termReturn = term(new BinOpNode("°", node, factor(null)));
+            } else {
+                termReturn = term(factor(null));
+            }
+            return termReturn;
+        } else if (symbol == '|' || symbol == ')') {
+            return node;
+
+        } else {
+            throw new RuntimeException("The expression is not a regular expression!");
+        }
     }
 
-    // logic
-    private Visitable start() {
-
-        if (regex.charAt(0) == '#') return new OperandNode("#");
-
-        else if (regex.charAt(0) == '(') {
-
-            OperandNode leaf = new OperandNode("#");
-
-            return new BinOpNode("°", regExp(null, 1), leaf);
-        } else return null;
+    public Visitable factor(Visitable node) {
+        if ((symbol >= 'A' && symbol <= 'Z') || (symbol >= 'a' && symbol <= 'z') || (symbol >= '0' && symbol <= '9') || (symbol == '(')) {
+            return hop(elem(null));
+        } else {
+            throw new RuntimeException("The expression is not a regular expression!");
+        }
     }
 
-    private Visitable regExp(Visitable parent, int pos) {
-
-        int charAtPosASCII = (int) regex.charAt(pos);
-
-        // 0 ... 9 | a ... z | A ... Z | (
-        if ((charAtPosASCII >= 48 && charAtPosASCII <= 57) || (charAtPosASCII >= 65 && charAtPosASCII <= 90) ||
-                (charAtPosASCII >= 97 && charAtPosASCII <= 122) || regex.charAt(pos) == '(') {
-            return reApostrophe(term(null, pos + 1), pos + 1);
-        } else return null;
+    public Visitable hop(Visitable node) {
+        switch (symbol) {
+            case '*':
+                nextSymbol();
+                return new UnaryOpNode("*", node);
+            case '+':
+                nextSymbol();
+                return new UnaryOpNode("+", node);
+            case '?':
+                nextSymbol();
+                return new UnaryOpNode("?", node);
+            default:
+                return node;
+        }
     }
 
-    private Visitable reApostrophe(Visitable parent, int pos) {
+    public Visitable elem(Visitable node) {
+        if (symbol != '(') {
+            return alphanum(null);
+        } else {
+            nextSymbol();
+            return regExp(null);
+        }
 
-        if (regex.charAt(pos) == '|') {
-
-            BinOpNode root = new BinOpNode("|", parent, term(null, pos + 1));
-
-            return reApostrophe(root, pos + 1);
-        } else if (regex.charAt(pos) == ')') return parent;
-
-        else return null;
     }
 
-    private Visitable term(Visitable parent, int pos) {
-
-        int charAtPosASCII = (int) regex.charAt(pos);
-
-        // 0 ... 9 | a ... z | A ... Z | (
-        if ((charAtPosASCII >= 48 && charAtPosASCII <= 57) || (charAtPosASCII >= 65 && charAtPosASCII <= 90) ||
-                (charAtPosASCII >= 97 && charAtPosASCII <= 122) || regex.charAt(pos) == '(') {
-
-            if (parent != null) {
-
-                BinOpNode root = new BinOpNode("°", parent, factor(null, pos + 1));
-
-                return term(root, pos + 1);
-            } else return term(factor(null, pos + 1), pos + 1);
-        } else if (regex.charAt(pos) == ')' || regex.charAt(pos) == '|') return parent;
-
-        else return null;
+    public Visitable alphanum(Visitable node) {
+        if ((symbol >= 'A' && symbol <= 'Z') || (symbol >= 'a' && symbol <= 'z') || (symbol >= '0' && symbol <= '9')) {
+            Visitable opNode = new OperandNode(String.valueOf(symbol));
+            nextSymbol();
+            return opNode;
+        }
+        throw new RuntimeException("The expression is not a regular expression!");
     }
 
-    private Visitable factor(Visitable parent, int pos) {
-
-        int charAtPosASCII = (int) regex.charAt(pos);
-
-        // 0 ... 9 | a ... z | A ... Z | (
-        if ((charAtPosASCII >= 48 && charAtPosASCII <= 57) || (charAtPosASCII >= 65 && charAtPosASCII <= 90) ||
-                (charAtPosASCII >= 97 && charAtPosASCII <= 122) || regex.charAt(pos) == '(') {
-
-            return hOp(elem(null, pos + 1), pos + 1);
-        } else return null;
-    }
-
-    private Visitable hOp(Visitable parent, int pos) {
-
-        int charAtPosASCII = (int) regex.charAt(pos);
-
-        // 0 ... 9 | a ... z | A ... Z | '(' | '|'
-        if ((charAtPosASCII >= 48 && charAtPosASCII <= 57) || (charAtPosASCII >= 65 && charAtPosASCII <= 90) ||
-                (charAtPosASCII >= 97 && charAtPosASCII <= 122) || regex.charAt(pos) == '(' ||
-                regex.charAt(pos) == '|') {
-
-            return parent;
-        } else if (regex.charAt(pos) == '*') return new UnaryOpNode("*", parent);
-        else if (regex.charAt(pos) == '+') return new UnaryOpNode("+", parent);
-        else if (regex.charAt(pos) == '?') return new UnaryOpNode("?", parent);
-
-        else return null;
-    }
-
-    private Visitable elem(Visitable parent, int pos) {
-
-        int charAtPosASCII = (int) regex.charAt(pos);
-
-        // 0 ... 9 | a ... z | A ... Z
-        if ((charAtPosASCII >= 48 && charAtPosASCII <= 57) || (charAtPosASCII >= 65 && charAtPosASCII <= 90) ||
-                (charAtPosASCII >= 97 && charAtPosASCII <= 122)) {
-
-            return alphaNum(null, pos + 1);
-        } else if (regex.charAt(pos) == '(') return regExp(null, pos + 1);
-
-        else return null;
-    }
-
-    private Visitable alphaNum(Visitable parent, int pos) {
-
-        int charAtPosASCII = (int) regex.charAt(pos);
-
-        // 0 ... 9 | a ... z | A ... Z | (
-        if ((charAtPosASCII >= 48 && charAtPosASCII <= 57) || (charAtPosASCII >= 65 && charAtPosASCII <= 90) ||
-                (charAtPosASCII >= 97 && charAtPosASCII <= 122)) {
-
-            return new OperandNode(regex.charAt(pos) + "");
-        } else return null;
+    public Visitable re(Visitable node) {
+        switch (symbol) {
+            case '|':
+                nextSymbol();
+                return re(new BinOpNode("|", node, term(null)));
+            case ')':
+                nextSymbol();
+                return node;
+        }
+        throw new RuntimeException("The expression is not a regular expression!");
     }
 }
