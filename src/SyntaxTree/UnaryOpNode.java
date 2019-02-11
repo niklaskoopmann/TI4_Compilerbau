@@ -16,4 +16,12 @@ public class UnaryOpNode extends SyntaxNode implements Visitable{
     public void accept(Visitor visitor) {
         visitor.visit(this);
     }
+
+    @Override
+    public String toString() {
+        return "UnaryOpNode{" +
+                "operator='" + operator + '\'' +
+                ", subNode=" + subNode.toString() +
+                '}';
+    }
 }

@@ -18,4 +18,11 @@ public class OperandNode extends SyntaxNode implements Visitable {
         visitor.visit(this);
     }
 
+    @Override
+    public String toString() {
+        return "OperandNode{" +
+                "position=" + position +
+                ", symbol='" + symbol + '\'' +
+                '}';
+    }
 }
