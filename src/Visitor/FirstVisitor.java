@@ -152,4 +152,10 @@ public class FirstVisitor implements Visitor {
             return false;
         }
     }
+
+    // traverse method
+    public void visitTreeNodes(Visitable root) {
+
+        DepthFirstIterator.traverse(root, this);
+    }
 }

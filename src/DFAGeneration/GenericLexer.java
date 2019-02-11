@@ -14,11 +14,11 @@ import java.util.SortedMap;
 
 public class GenericLexer {
 
-    private Map<DFAState, ArrayList<DFAState>> transitionMatrix;
+    private Map<DFAState, DFAState[]> transitionMatrix;
     private DFAGenerator dfaGenerator;
     private ArrayList<String> alphabet;
 
-    public GenericLexer(Map<DFAState, ArrayList<DFAState>> transitionMatrix){
+    public GenericLexer(Map<DFAState, DFAState[]> transitionMatrix){
 
         this.transitionMatrix = transitionMatrix;
         this.dfaGenerator = new DFAGenerator();
@@ -33,7 +33,7 @@ public class GenericLexer {
 
         for (char letter : toCheckArray) {
 
-            DFAState nextState = transitionMatrix.get(currentState).get(alphabet.indexOf(letter + ""));
+            DFAState nextState = transitionMatrix.get(currentState)[alphabet.indexOf(letter + "")];
 
             if(nextState != null){
 
@@ -46,5 +46,29 @@ public class GenericLexer {
         if(currentState.isAcceptingState) return true;
 
         else return false;
+    }
+
+    public Map<DFAState, DFAState[]> getTransitionMatrix() {
+        return transitionMatrix;
+    }
+
+    public void setTransitionMatrix(Map<DFAState, DFAState[]> transitionMatrix) {
+        this.transitionMatrix = transitionMatrix;
+    }
+
+    public DFAGenerator getDfaGenerator() {
+        return dfaGenerator;
+    }
+
+    public void setDfaGenerator(DFAGenerator dfaGenerator) {
+        this.dfaGenerator = dfaGenerator;
+    }
+
+    public ArrayList<String> getAlphabet() {
+        return alphabet;
+    }
+
+    public void setAlphabet(ArrayList<String> alphabet) {
+        this.alphabet = alphabet;
     }
 }

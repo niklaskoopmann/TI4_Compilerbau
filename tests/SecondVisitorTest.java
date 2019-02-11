@@ -98,9 +98,9 @@ class SecondVisitorTest {
         // set lastpos entry for test-OperandNode manually
 
         // set node's position
-        int testON1Position = (int)(Math.random() * Integer.MAX_VALUE);
-        int testON2Position = (int)(Math.random() * Integer.MAX_VALUE);
-        int testON3Position = (int)(Math.random() * Integer.MAX_VALUE);
+        int testON1Position = (int)(Math.random() * Integer.MAX_VALUE) + 1;
+        int testON2Position = (int)(Math.random() * Integer.MAX_VALUE) + 1;
+        int testON3Position = (int)(Math.random() * Integer.MAX_VALUE) + 1;
         testON1.position = testON1Position;
         testON2.position = testON2Position;
         testON3.position = testON3Position;
@@ -120,9 +120,9 @@ class SecondVisitorTest {
         OperandNode testON4 = new OperandNode("D");
         OperandNode testON5 = new OperandNode("E");
         OperandNode testON6 = new OperandNode("F");
-        int testON4Position = (int)(Math.random() * Integer.MAX_VALUE);
-        int testON5Position = (int)(Math.random() * Integer.MAX_VALUE);
-        int testON6Position = (int)(Math.random() * Integer.MAX_VALUE);
+        int testON4Position = (int)(Math.random() * Integer.MAX_VALUE) + 1;
+        int testON5Position = (int)(Math.random() * Integer.MAX_VALUE) + 1;
+        int testON6Position = (int)(Math.random() * Integer.MAX_VALUE) + 1;
         testON4.position = testON4Position;
         testON5.position = testON5Position;
         testON6.position = testON6Position;
