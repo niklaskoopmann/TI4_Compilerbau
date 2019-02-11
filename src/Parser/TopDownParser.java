@@ -8,7 +8,7 @@ import SyntaxTree.Visitable;
 /**
  * for whole class:
  *
- * @author Niklas Koopmann (9742503)
+ * @author Lars Roth (4102770)
  **/
 
 public class TopDownParser {
@@ -60,7 +60,6 @@ public class TopDownParser {
             return termReturn;
         } else if (symbol == '|' || symbol == ')') {
             return node;
-
         } else {
             throw new RuntimeException("The expression is not a regular expression!");
         }
@@ -105,8 +104,9 @@ public class TopDownParser {
             Visitable opNode = new OperandNode(String.valueOf(symbol));
             nextSymbol();
             return opNode;
+        } else {
+            throw new RuntimeException("The expression is not a regular expression!");
         }
-        throw new RuntimeException("The expression is not a regular expression!");
     }
 
     private Visitable re(Visitable node) {
@@ -117,7 +117,8 @@ public class TopDownParser {
             case ')':
                 nextSymbol();
                 return node;
+            default:
+                throw new RuntimeException("The expression is not a regular expression!");
         }
-        throw new RuntimeException("The expression is not a regular expression!");
     }
 }
