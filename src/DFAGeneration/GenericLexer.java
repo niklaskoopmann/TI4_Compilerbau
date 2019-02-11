@@ -18,7 +18,7 @@ public class GenericLexer {
         this.transitionMatrix = transitionMatrix;
     }
 
-    public boolean match(String toCheck){
+    /*public boolean match(String toCheck){
 
         char[] toCheckArray = toCheck.toCharArray();
 
@@ -39,5 +39,5 @@ public class GenericLexer {
         if(currentState.isAcceptingState) return true;
 
         else return false;
-    }
+    }*/
 }

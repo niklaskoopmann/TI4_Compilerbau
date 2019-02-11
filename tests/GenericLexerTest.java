@@ -31,7 +31,6 @@ class GenericLexerTest {
             String randomASCIIChar = (char)(32 + (int)(Math.random() * 94)) + "";
             randomTestAlphabet.add(randomASCIIChar);
             // update transition matrix simultaneously
-            testTransitionMatrix.get(i + 1)[0] = ;
         }
 
 

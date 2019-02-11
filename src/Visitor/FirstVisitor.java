@@ -107,11 +107,7 @@ public class FirstVisitor implements Visitor {
             return true;
         } else if (node.operator.equals("?")) {
             // is automatically a leaf -> no children
-            if (((OperandNode) node.subNode).symbol.equals("epsilon")) {
-                return true;
-            } else {
-                return false;
-            }
+            return ((OperandNode) node.subNode).symbol.equals("epsilon");
         }
         return false;
     }
@@ -121,35 +117,19 @@ public class FirstVisitor implements Visitor {
         if (node.operator.equals("|")) {
 
             // two operands or UnaryOp and operand or binaryop and operand
-            if ((((SyntaxNode) node.left).nullable) || ((SyntaxNode) node.right).nullable) {
-                return true;
-            } else {
-                return false;
-            }
+            return (((SyntaxNode) node.left).nullable) || ((SyntaxNode) node.right).nullable;
         }
         // concatenation
         else if (node.operator.equals("°")) {
-            if ((((SyntaxNode) node.left).nullable) && ((SyntaxNode) node.right).nullable) {
-                return true;
-            } else {
-                return false;
-            }
+            return (((SyntaxNode) node.left).nullable) && ((SyntaxNode) node.right).nullable;
         } else if (node.operator.equals("?")) {
             return true;
         }
-        else if (node.operator.equals("*")){
-            return true;
-        }
-        return false;
+        else return node.operator.equals("*");
     }
 
     public boolean isOperandNullable(OperandNode node){
         // operands are always leafs
-        if (node.symbol.equals("epsilon")){
-            return true;
-        }
-        else {
-            return false;
-        }
+        return node.symbol.equals("epsilon");
     }
 }
