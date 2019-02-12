@@ -18,6 +18,7 @@ class TopDownParserTest {
 
     @BeforeEach
     void setUp() {
+        // some valid regular expressions
         regExs = new String[]{
                 "(a(a|b)*a)#",
                 "((a|b)*a(a|b)(a|b))#",
@@ -30,8 +31,7 @@ class TopDownParserTest {
                 "((a|ab)?ba)#",
                 "(aa*a+)#",
                 "((a|b)*a(a|b)(a|b)?(a|b)+(a|b))#",
-                "(a*b*c*d*e)#",
-                "((|(*+e?()#"
+                "(a*b*c*d*e)#"
         };
 
         results = new Boolean[regExs.length];
@@ -41,7 +41,7 @@ class TopDownParserTest {
     void tearDown() {
         boolean works = true;
         for (int i = 0; i < results.length; i++) {
-            if (results[i] == false){
+            if (!results[i]){
                 works = false;
                 System.err.println("Not all expressions where parsed correctly. Error at number " + i);
             }
@@ -62,7 +62,6 @@ class TopDownParserTest {
             } catch (RuntimeException e) {
                 results[i] = false;
                 System.err.println("Test failed for: " + regExs[i]);
-                continue;
             }
         }
     }
