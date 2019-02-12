@@ -67,7 +67,7 @@ class GenericLexerTest {
 
             // parse a regex
             testTopDownParser = new TopDownParser(regExps[i]);
-            Visitable syntaxTreeRootNode = testTopDownParser.start(null);
+            Visitable syntaxTreeRootNode = testTopDownParser.start();
 
             // visit generated syntax tree
                 // first visitor
@@ -80,7 +80,7 @@ class GenericLexerTest {
 
             // generate DFA from data
             testDFAgenerator = new DFAGenerator();
-            testDFAgenerator.doSomething(); // let dfa generator create transition matrix
+            //testDFAgenerator.doSomething(); // let dfa generator create transition matrix
 
             // get transition table and alphabet from DFA generator
             testTransitionMatrix = testDFAgenerator.getTransitionMatrix();
