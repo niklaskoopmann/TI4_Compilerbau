@@ -4,6 +4,12 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * for whole class:
+ *
+ * @author Lars Roth (4102770)
+ **/
+
 class TopDownParserTest {
 
     private String[] regExs;
