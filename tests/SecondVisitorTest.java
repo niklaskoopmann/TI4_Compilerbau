@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -135,16 +136,47 @@ class SecondVisitorTest {
         sv.visit(testON2);
         sv.visit(testON3);
 
+        // uon now has:
+        // lastpos = {testON1, testON2, testON3}
+        // firstpos = {testON4, testON5, testON6}
+
         sv.visit(uon); // visit node
 
-        //
+        // FollowPosTable should have 3 entries
         assertEquals(sv.getFollowPosTableEntries().size(), 3);
 
+        // for each node in lastpos, a FollowPosTableEntry should be created
+        Set<Integer> followPosSet = new HashSet<Integer>();
+        followPosSet.add(testON4Position);
+        followPosSet.add(testON5Position);
+        followPosSet.add(testON6Position);
+        for(FollowPosTableEntry entry : sv.getFollowPosTableEntries().values()) assertEquals(entry.followpos, followPosSet);
+
         setUp(); // reset
-        uon = new UnaryOpNode("*", new OperandNode("A"));
+        uon = new UnaryOpNode("*", new OperandNode("A")); // only reset node
+
+        // The visitor should do the exact same for Kleene plus and Kleene star. Therefore:
+
+        // add lastPos nodes' positions to uon's entry
+        uon.lastpos.add(testON1Position);
+        uon.lastpos.add(testON2Position);
+        uon.lastpos.add(testON3Position);
+        uon.firstpos.add(testON4Position);
+        uon.firstpos.add(testON5Position);
+        uon.firstpos.add(testON6Position);
+
+        sv.visit(uon); // visit node
+
+        // FollowPosTable should have 3 entries
+        assertEquals(sv.getFollowPosTableEntries().size(), 3);
+
+        // followPosSet stays the same:
+        for(FollowPosTableEntry entry : sv.getFollowPosTableEntries().values()) assertEquals(entry.followpos, followPosSet);
     }
 
     @Test // BinOpNode
     void visit2() {
+
+
     }
 }
