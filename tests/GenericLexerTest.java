@@ -67,7 +67,7 @@ class GenericLexerTest {
 
             // parse a regex
             testTopDownParser = new TopDownParser(regExps[i]);
-            Visitable syntaxTreeRootNode = testTopDownParser.start();
+            Visitable syntaxTreeRootNode = testTopDownParser.start(null);
 
             // visit generated syntax tree
                 // first visitor
