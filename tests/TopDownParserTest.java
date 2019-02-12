@@ -31,7 +31,7 @@ class TopDownParserTest {
                 "(aa*a+)#",
                 "((a|b)*a(a|b)(a|b)?(a|b)+(a|b))#",
                 "(a*b*c*d*e)#",
-                "12e3"
+                "((|(*+e?()#"
         };
 
         results = new Boolean[regExs.length];
