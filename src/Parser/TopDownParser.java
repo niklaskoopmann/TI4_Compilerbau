@@ -28,7 +28,7 @@ public class TopDownParser {
             symbol = string.charAt(i);
     }
 
-    public Visitable start(Visitable node) {
+    public Visitable start() {
         switch (symbol) {
             case '#':
                 return new OperandNode("#");

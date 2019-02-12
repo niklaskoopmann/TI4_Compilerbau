@@ -45,7 +45,7 @@ class TopDownParserTest {
         for (int i = 0; i < regExs.length; i++) {
             System.out.println("Testing parser for expression: " + regExs[i]);
             parser = new TopDownParser(regExs[i]);
-            Visitable result = parser.start(null);
+            Visitable result = parser.start();
             System.out.println("Result:");
             System.out.println(result.toString() + '\n');
             results[i] = true;
