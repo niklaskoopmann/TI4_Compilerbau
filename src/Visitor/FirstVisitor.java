@@ -105,9 +105,6 @@ public class FirstVisitor implements Visitor {
         // has one descendant
         if (node.operator.equals("*") || node.operator.equals("?")) {
             return true;
-        } else if (node.operator.equals("?")) {
-            // is automatically a leaf -> no children
-            return ((OperandNode) node.subNode).symbol.equals("epsilon");
         }
         return false;
     }
@@ -122,10 +119,9 @@ public class FirstVisitor implements Visitor {
         // concatenation
         else if (node.operator.equals("°")) {
             return (((SyntaxNode) node.left).nullable) && ((SyntaxNode) node.right).nullable;
-        } else if (node.operator.equals("?")) {
-            return true;
+        } else {
+            return false;
         }
-        else return node.operator.equals("*");
     }
 
     public boolean isOperandNullable(OperandNode node){
