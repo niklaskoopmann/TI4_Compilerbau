@@ -2,7 +2,7 @@ package SyntaxTree;
 
 import Visitor.Visitor;
 
-public class BinOpNode extends SyntaxNode implements Visitable{
+public class BinOpNode extends SyntaxNode implements Visitable {
 
     public String operator;
     public Visitable left;

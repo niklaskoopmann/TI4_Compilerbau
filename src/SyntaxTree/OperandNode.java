@@ -13,8 +13,7 @@ public class OperandNode extends SyntaxNode implements Visitable {
     }
 
     @Override
-    public void accept(Visitor visitor)
-    {
+    public void accept(Visitor visitor) {
         visitor.visit(this);
     }
 

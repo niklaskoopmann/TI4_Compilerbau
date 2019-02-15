@@ -18,6 +18,7 @@ public class TopDownParser {
 
     /**
      * Constructer initalizes parser with regular expression given by parameter
+     *
      * @param string the regular expression
      */
     public TopDownParser(String string) {
@@ -37,7 +38,8 @@ public class TopDownParser {
 
     /**
      * This function starts the evaluation of the regular expression and sets the end node or throws an exception
-     * @return  Visitable object, which is the final syntax tree
+     *
+     * @return Visitable object, which is the final syntax tree
      */
     public Visitable start() {
         switch (symbol) {
@@ -53,6 +55,7 @@ public class TopDownParser {
 
     /**
      * This function realizes the RegExp -> Term RE in the parser rules
+     *
      * @param node the parent node
      * @return Visitable object, which is the syntax tree with the new node
      */
@@ -67,6 +70,7 @@ public class TopDownParser {
 
     /**
      * This function realizes the Term -> FactorTerm or epsilon in the parser rules
+     *
      * @param node the parent node
      * @return Visitable object, which is the syntax tree with the new node
      */
@@ -88,6 +92,7 @@ public class TopDownParser {
 
     /**
      * This function realizes the Factor -> Elem HOp in the parser rules
+     *
      * @param node the parent node
      * @return Visitable object, which is the syntax tree with the new node
      */
@@ -101,6 +106,7 @@ public class TopDownParser {
 
     /**
      * This function realizes the HOp rules in the parser rules
+     *
      * @param node the parent node
      * @return Visitable object, which is the syntax tree with the new node
      */
@@ -122,6 +128,7 @@ public class TopDownParser {
 
     /**
      * This function realizes the Elem rules in the parser rules
+     *
      * @param node the parent node
      * @return Visitable object, which is the syntax tree with the new node
      */
@@ -137,6 +144,7 @@ public class TopDownParser {
 
     /**
      * This function realizes the Alphanum rules in the parser rules
+     *
      * @param node the parent node
      * @return Visitable object, which is the syntax tree with the new node
      */
@@ -152,6 +160,7 @@ public class TopDownParser {
 
     /**
      * This function realizes the RE -> | TermRE or epsilon in the parser rules
+     *
      * @param node the parent node
      * @return Visitable object, which is the syntax tree with the new node
      */

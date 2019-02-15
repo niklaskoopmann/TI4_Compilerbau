@@ -8,7 +8,6 @@ import SyntaxTree.UnaryOpNode;
 import Visitor.FirstVisitor;
 import org.junit.jupiter.api.Test;
 
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -42,6 +41,7 @@ public class FirstVisitorTests {
 
         assertFalse(tester.isBinOpNullable(node));
     }
+
     @Test
     public void testBinOperandNode_2() {
         FirstVisitor tester = new FirstVisitor(); // tested class
@@ -82,7 +82,7 @@ public class FirstVisitorTests {
     }
 
     @Test
-    public void testSetFirstAndLastPos(){
+    public void testSetFirstAndLastPos() {
         FirstVisitor tester = new FirstVisitor(); // tested class
 
         OperandNode a = new OperandNode("a");
@@ -102,11 +102,11 @@ public class FirstVisitorTests {
 
         set.add(3);
         // assert statement
-        assertEquals(set,tester.setFirstAndLastPos(a2));
+        assertEquals(set, tester.setFirstAndLastPos(a2));
     }
 
     @Test
-    public void testSetFirstPosBinOp_Or(){
+    public void testSetFirstPosBinOp_Or() {
         FirstVisitor tester = new FirstVisitor(); // tested class
         OperandNode a = new OperandNode("a");
         OperandNode b = new OperandNode("b");
@@ -124,10 +124,11 @@ public class FirstVisitorTests {
         b.firstpos.addAll(tester.setFirstAndLastPos(b));
 
         // assert statement
-        assertEquals(set,tester.setFirstPos(node));
+        assertEquals(set, tester.setFirstPos(node));
     }
+
     @Test
-    public void testSetFirstPosBinOp_Concat(){
+    public void testSetFirstPosBinOp_Concat() {
         FirstVisitor tester = new FirstVisitor(); // tested class
         OperandNode a = new OperandNode("a");
         OperandNode b = new OperandNode("b");
@@ -156,11 +157,11 @@ public class FirstVisitorTests {
         node2.firstpos.addAll(tester.setFirstPos(node2));
 
         // assert statement
-        assertEquals(set,tester.setFirstPos(node2));
+        assertEquals(set, tester.setFirstPos(node2));
     }
 
     @Test
-    public void testSetLastPosBinOp_Or(){
+    public void testSetLastPosBinOp_Or() {
         FirstVisitor tester = new FirstVisitor(); // tested class
         OperandNode a = new OperandNode("a");
         OperandNode b = new OperandNode("b");
@@ -186,10 +187,11 @@ public class FirstVisitorTests {
 
 
         // assert statement
-        assertEquals(set,tester.setLastPos(node));
+        assertEquals(set, tester.setLastPos(node));
     }
+
     @Test
-    public void testSetLastPosBinOp_Concat(){
+    public void testSetLastPosBinOp_Concat() {
         FirstVisitor tester = new FirstVisitor(); // tested class
         OperandNode a = new OperandNode("a");
         OperandNode b = new OperandNode("b");
@@ -230,11 +232,11 @@ public class FirstVisitorTests {
         node2.lastpos.addAll(positions);
 
         // assert statement
-        assertEquals(set,tester.setLastPos(node2));
+        assertEquals(set, tester.setLastPos(node2));
     }
 
     @Test
-    public void testSetFirstPosUnaryOp(){
+    public void testSetFirstPosUnaryOp() {
         FirstVisitor tester = new FirstVisitor(); // tested class
 
         OperandNode a = new OperandNode("a");
@@ -267,10 +269,11 @@ public class FirstVisitorTests {
         un.firstpos.addAll(positions);
 
         // assert statement
-        assertEquals(set,tester.setFirstPos(un));
+        assertEquals(set, tester.setFirstPos(un));
     }
+
     @Test
-    public void testSetLastPosUnaryOp(){
+    public void testSetLastPosUnaryOp() {
         FirstVisitor tester = new FirstVisitor(); // tested class
 
         OperandNode a = new OperandNode("a");
@@ -303,6 +306,6 @@ public class FirstVisitorTests {
         un.lastpos.addAll(positions);
 
         // assert statement
-        assertEquals(set,tester.setLastPos(un));
+        assertEquals(set, tester.setLastPos(un));
     }
 }

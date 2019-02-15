@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * for whole test class:
  *
- * @author Chiara Kramer (8033039)
+ * @author Chiara Kramer
  */
 
 class GenericLexerTest {
@@ -48,15 +48,15 @@ class GenericLexerTest {
                 "(a(a|b)*a)#",
                 "((a|b)*a(a|b)(a|b))#",
                 "(a*ba*ba*ba*)#",
-                //"((aa|bb)*((ab|ba)(aa|bb)*(ab|ba)(aa|bb)*)*)#",
+                "((aa|bb)*((ab|ba)(aa|bb)*(ab|ba)(aa|bb)*)*)#",
                 "(a|b*c)#",
                 "((a|b)*abb)#",
                 "((a|b)*a(a|b))#",
                 "((abcd|abc)+)#",
                 "((a|ab)?ba)#",
                 "(aa*a+)#",
-                "((a|b)*a(a|b)(a|b)?(a|b)+(a|b))#"//,
-                //"(a*b*c*d*e)#"
+                "((a|b)*a(a|b)(a|b)?(a|b)+(a|b))#",
+                "(a*b*c*d*e)#"
         };
 
         // some random Strings accepted for each regex
@@ -101,10 +101,10 @@ class GenericLexerTest {
 
             // fill word list with a lot of random accepted words
             ArrayList<String> wordsToAccept = new ArrayList<String>();
-            while (wordsToAccept.size() < 100) {
+            while (wordsToAccept.size() < 10000) {
 
                 //int randomStringLength = (int)(Math.random() * Integer.MAX_VALUE); // takes some time...
-                int randomStringLength = (int) (Math.random() * 10); // takes less time...
+                int randomStringLength = (int) (Math.random() * 1000); // takes less time...
 
                 String acceptedWord = "";
 
@@ -119,10 +119,10 @@ class GenericLexerTest {
 
             // fill refusing word list with random words that do not match the regular expression
             ArrayList<String> wordsToRefuse = new ArrayList<String>();
-            while (wordsToRefuse.size() < 100) {
+            while (wordsToRefuse.size() < 10000) {
 
                 //int randomStringLength = (int)(Math.random() * Integer.MAX_VALUE); // takes some time...
-                int randomStringLength = (int) (Math.random() * 10); // takes less time...
+                int randomStringLength = (int) (Math.random() * 1000); // takes less time...
 
                 String refusedWord = "";
 

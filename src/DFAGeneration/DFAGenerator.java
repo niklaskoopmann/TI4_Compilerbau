@@ -1,7 +1,5 @@
 package DFAGeneration;
 
-import javax.swing.plaf.nimbus.State;
-import java.lang.reflect.Array;
 import java.util.*;
 
 /*
@@ -19,17 +17,17 @@ public class DFAGenerator {
         this.transitionMatrix = new HashMap<DFAState, DFAState[]>();
     }
 
-    public void generateAlphabet (SortedMap<Integer, FollowPosTableEntry> followPosTableEntries){
+    public void generateAlphabet(SortedMap<Integer, FollowPosTableEntry> followPosTableEntries) {
         //alle followPosTableEntries durchgehen, wenn FollowPosTableEntry.symbol schon
         //existiert weiter, wenn nicht zu alphabet adden
-        for (Map.Entry<Integer, FollowPosTableEntry> entry: followPosTableEntries.entrySet()){
+        for (Map.Entry<Integer, FollowPosTableEntry> entry : followPosTableEntries.entrySet()) {
             boolean stringExists = false;
-            for (String referenceString:this.alphabet){
-                if (entry.getValue().symbol == referenceString){
+            for (String referenceString : this.alphabet) {
+                if (entry.getValue().symbol == referenceString) {
                     stringExists = true;
                 }
             }
-            if ((!stringExists)&&(entry.getValue().symbol!=null)){
+            if ((!stringExists) && (entry.getValue().symbol != null)) {
                 this.alphabet.add(entry.getValue().symbol);
             }
         }
@@ -73,20 +71,20 @@ public class DFAGenerator {
     }
     */
 
-    public void generateTransitionMatrix (SortedMap<Integer, FollowPosTableEntry> followPosTableEntries){
+    public void generateTransitionMatrix(SortedMap<Integer, FollowPosTableEntry> followPosTableEntries) {
         //Zuerst erstellen aller möglichen States
         boolean isFirstState = true;
         ArrayList<DFAState> allUniqueStates = new ArrayList<>();
-        for (Map.Entry<Integer, FollowPosTableEntry> entry: followPosTableEntries.entrySet()){
+        for (Map.Entry<Integer, FollowPosTableEntry> entry : followPosTableEntries.entrySet()) {
             int value = entry.getValue().position;
             boolean isAcceptingState = false;
-            if (entry.getValue().followpos.size() == 0){
+            if (entry.getValue().followpos.size() == 0) {
                 isAcceptingState = true;
             }
             Set<Integer> positionSet = entry.getValue().followpos;
-            DFAState tmpState = new DFAState(value,isAcceptingState,positionSet);
-            if (isFirstState){
-                tmpState.isInitialState=true;
+            DFAState tmpState = new DFAState(value, isAcceptingState, positionSet);
+            if (isFirstState) {
+                tmpState.isInitialState = true;
                 this.initialState = tmpState;
                 isFirstState = false;
             }
@@ -94,20 +92,20 @@ public class DFAGenerator {
         }
 
         //Für jeden State werden nun die following states geschrieben
-        for (DFAState aDFAState : allUniqueStates){
+        for (DFAState aDFAState : allUniqueStates) {
             ArrayList<DFAState> StateList = new ArrayList<>();
-            for (int i :aDFAState.positionsSet){
-                for(DFAState followingState : allUniqueStates){
-                    if (followingState.index==i){
+            for (int i : aDFAState.positionsSet) {
+                for (DFAState followingState : allUniqueStates) {
+                    if (followingState.index == i) {
                         StateList.add(followingState);
                     }
                 }
             }
             DFAState[] StateArray = new DFAState[StateList.size()];
-            for (int count = 0; count < StateArray.length; count++){
+            for (int count = 0; count < StateArray.length; count++) {
                 StateArray[count] = StateList.get(count);
             }
-            transitionMatrix.put(aDFAState,StateArray);
+            transitionMatrix.put(aDFAState, StateArray);
         }
     }
 

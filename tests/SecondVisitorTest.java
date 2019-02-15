@@ -12,14 +12,12 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- *
  * for whole test class:
  *
- * @author Niklas Koopmann (9742503)
- *
+ * @author Niklas Koopmann
  */
 
 class SecondVisitorTest {
@@ -36,7 +34,7 @@ class SecondVisitorTest {
         sv = new SecondVisitor();
 
         // nodes as well, just to be safe
-        bon = new BinOpNode("|" ,new OperandNode("A"), new OperandNode("B"));
+        bon = new BinOpNode("|", new OperandNode("A"), new OperandNode("B"));
         on = new OperandNode("0");
         uon = new UnaryOpNode("?", new OperandNode("A"));
     }
@@ -50,7 +48,7 @@ class SecondVisitorTest {
 
         on = new OperandNode("A");
 
-        int testONposition = (int)(Math.random() * Integer.MAX_VALUE) + 1;
+        int testONposition = (int) (Math.random() * Integer.MAX_VALUE) + 1;
 
         on.position = testONposition;
 
@@ -64,12 +62,12 @@ class SecondVisitorTest {
     @Test
     void visitOperandNode() {
 
-        for(int i = 48; i <= 122; i++){ // 0 ... z in ASCII
+        for (int i = 48; i <= 122; i++) { // 0 ... z in ASCII
 
             // only for 0 ... 9 | A ... Z | a ... z
-            if(i <= 57 || (i >= 65 && i <= 90) || i >= 97){
+            if (i <= 57 || (i >= 65 && i <= 90) || i >= 97) {
 
-                String currentSymbol = (char)i + "";
+                String currentSymbol = (char) i + "";
                 on = new OperandNode(currentSymbol); // re-init OperandNode
                 on.position = 0;
                 sv.visit(on);
@@ -80,7 +78,7 @@ class SecondVisitorTest {
         }
 
         //for(int i = Integer.MIN_VALUE; i < Integer.MAX_VALUE; i++){ // this takes some time...
-        for(int i = -100; i < 100; i++){ // this takes less time...
+        for (int i = -10000; i < 10000; i++) { // this takes less time...
 
             on = new OperandNode("A"); // re-init OperandNode
             on.position = i;
@@ -115,9 +113,9 @@ class SecondVisitorTest {
         // set lastpos entry for test-OperandNodes manually
 
         // set nodes' positions
-        int testON1Position = (int)(Math.random() * Integer.MAX_VALUE) + 1;
-        int testON2Position = (int)(Math.random() * Integer.MAX_VALUE) + 1;
-        int testON3Position = (int)(Math.random() * Integer.MAX_VALUE) + 1;
+        int testON1Position = (int) (Math.random() * Integer.MAX_VALUE) + 1;
+        int testON2Position = (int) (Math.random() * Integer.MAX_VALUE) + 1;
+        int testON3Position = (int) (Math.random() * Integer.MAX_VALUE) + 1;
         testON1.position = testON1Position;
         testON2.position = testON2Position;
         testON3.position = testON3Position;
@@ -133,9 +131,9 @@ class SecondVisitorTest {
         OperandNode testON4 = new OperandNode("D");
         OperandNode testON5 = new OperandNode("E");
         OperandNode testON6 = new OperandNode("F");
-        int testON4Position = (int)(Math.random() * Integer.MAX_VALUE) + 1;
-        int testON5Position = (int)(Math.random() * Integer.MAX_VALUE) + 1;
-        int testON6Position = (int)(Math.random() * Integer.MAX_VALUE) + 1;
+        int testON4Position = (int) (Math.random() * Integer.MAX_VALUE) + 1;
+        int testON5Position = (int) (Math.random() * Integer.MAX_VALUE) + 1;
+        int testON6Position = (int) (Math.random() * Integer.MAX_VALUE) + 1;
         testON4.position = testON4Position;
         testON5.position = testON5Position;
         testON6.position = testON6Position;
@@ -162,7 +160,8 @@ class SecondVisitorTest {
         testFollowPosSet.add(testON4Position);
         testFollowPosSet.add(testON5Position);
         testFollowPosSet.add(testON6Position);
-        for(FollowPosTableEntry entry : sv.getFollowPosTableEntries().values()) assertEquals(testFollowPosSet, entry.followpos);
+        for (FollowPosTableEntry entry : sv.getFollowPosTableEntries().values())
+            assertEquals(testFollowPosSet, entry.followpos);
 
         setUp(); // reset
         uon = new UnaryOpNode("*", new OperandNode("A")); // reset node with new operation
@@ -188,7 +187,8 @@ class SecondVisitorTest {
         assertEquals(sv.getFollowPosTableEntries().size(), 3);
 
         // followPosSet stays the same:
-        for(FollowPosTableEntry entry : sv.getFollowPosTableEntries().values()) assertEquals(testFollowPosSet, entry.followpos);
+        for (FollowPosTableEntry entry : sv.getFollowPosTableEntries().values())
+            assertEquals(testFollowPosSet, entry.followpos);
     }
 
     @Test
@@ -218,9 +218,9 @@ class SecondVisitorTest {
         OperandNode testON3 = new OperandNode("C");
 
         // set node's position
-        int testON1Position = (int)(Math.random() * Integer.MAX_VALUE) + 1;
-        int testON2Position = (int)(Math.random() * Integer.MAX_VALUE) + 1;
-        int testON3Position = (int)(Math.random() * Integer.MAX_VALUE) + 1;
+        int testON1Position = (int) (Math.random() * Integer.MAX_VALUE) + 1;
+        int testON2Position = (int) (Math.random() * Integer.MAX_VALUE) + 1;
+        int testON3Position = (int) (Math.random() * Integer.MAX_VALUE) + 1;
         testON1.position = testON1Position;
         testON2.position = testON2Position;
         testON3.position = testON3Position;
@@ -238,9 +238,9 @@ class SecondVisitorTest {
         OperandNode testON4 = new OperandNode("D");
         OperandNode testON5 = new OperandNode("E");
         OperandNode testON6 = new OperandNode("F");
-        int testON4Position = (int)(Math.random() * Integer.MAX_VALUE) + 1;
-        int testON5Position = (int)(Math.random() * Integer.MAX_VALUE) + 1;
-        int testON6Position = (int)(Math.random() * Integer.MAX_VALUE) + 1;
+        int testON4Position = (int) (Math.random() * Integer.MAX_VALUE) + 1;
+        int testON5Position = (int) (Math.random() * Integer.MAX_VALUE) + 1;
+        int testON6Position = (int) (Math.random() * Integer.MAX_VALUE) + 1;
         testON4.position = testON4Position;
         testON5.position = testON5Position;
         testON6.position = testON6Position;
@@ -273,7 +273,8 @@ class SecondVisitorTest {
         testFollowPosSet.add(testON6Position);
 
         // compare result of visit with expected set
-        for(FollowPosTableEntry entry : sv.getFollowPosTableEntries().values()) assertEquals(testFollowPosSet, entry.followpos);
+        for (FollowPosTableEntry entry : sv.getFollowPosTableEntries().values())
+            assertEquals(testFollowPosSet, entry.followpos);
     }
 
     // for full test coverage:
@@ -284,12 +285,13 @@ class SecondVisitorTest {
 
         // insert random number of entries
         //for(int i = 0; i < (int)(Math.random() * Integer.MAX_VALUE); i++){ // this takes some time...
-        for(int i = 0; i < (int)(Math.random() * 1000); i++){ // this takes less time...
+        for (int i = 0; i < (int) (Math.random() * 10000); i++) { // this takes less time...
 
             String randomTestString = "";
 
             //for(int j = 0; j < (int)(Math.random() * Integer.MAX_VALUE); j++) randomTestString += (char)((int)(Math.random() * 94) + 32); // this takes some time...
-            for(int j = 0; j < (int)(Math.random() * 1000); j++) randomTestString += (char)((int)(Math.random() * 94) + 32); // this takes less time...
+            for (int j = 0; j < (int) (Math.random() * 10000); j++)
+                randomTestString += (char) ((int) (Math.random() * 94) + 32); // this takes less time...
 
             FollowPosTableEntry testFPTE = new FollowPosTableEntry(i, randomTestString);
 

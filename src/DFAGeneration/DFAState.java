@@ -2,7 +2,7 @@ package DFAGeneration;
 
 import java.util.Set;
 
-public class DFAState implements Comparable<DFAState>{
+public class DFAState implements Comparable<DFAState> {
 
     public final int index;
     public final Boolean isAcceptingState;
@@ -18,10 +18,10 @@ public class DFAState implements Comparable<DFAState>{
 
     @Override
     public boolean equals(Object obj) {
-        if(this == obj)
-            if(obj == null)
-                if(getClass() != obj.getClass()) return false;
-        DFAState other = (DFAState)obj;
+        if (this == obj)
+            if (obj == null)
+                if (getClass() != obj.getClass()) return false;
+        DFAState other = (DFAState) obj;
         return (other.index == this.index);
     }
 

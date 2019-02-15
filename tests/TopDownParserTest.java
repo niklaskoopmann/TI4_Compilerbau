@@ -1,11 +1,13 @@
 import Parser.TopDownParser;
 import SyntaxTree.Visitable;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * for whole class:
  *
- * @author Lars Roth (4102770)
+ * @author Lars Roth
  **/
 
 class TopDownParserTest {
@@ -39,12 +41,12 @@ class TopDownParserTest {
     void tearDown() {
         boolean works = true;
         for (int i = 0; i < results.length; i++) {
-            if (!results[i]){
+            if (!results[i]) {
                 works = false;
                 System.err.println("Not all expressions where parsed correctly. Error at number " + i);
             }
         }
-        if(works) System.out.println("All expressions parsed successfully!");
+        if (works) System.out.println("All expressions parsed successfully!");
     }
 
     @Test

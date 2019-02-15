@@ -3,8 +3,6 @@ package Visitor;
 import DFAGeneration.FollowPosTableEntry;
 import SyntaxTree.*;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -87,14 +85,14 @@ public class SecondVisitor implements Visitor {
         return followPosTableEntries;
     }
 
-    public DepthFirstIterator getDepthFirstIterator() {
-        return depthFirstIterator;
+    public void setFollowPosTableEntries(SortedMap<Integer, FollowPosTableEntry> followPosTableEntries) {
+        this.followPosTableEntries = followPosTableEntries;
     }
 
     // Setter methods
 
-    public void setFollowPosTableEntries(SortedMap<Integer, FollowPosTableEntry> followPosTableEntries) {
-        this.followPosTableEntries = followPosTableEntries;
+    public DepthFirstIterator getDepthFirstIterator() {
+        return depthFirstIterator;
     }
 
     public void setDepthFirstIterator(DepthFirstIterator depthFirstIterator) {
