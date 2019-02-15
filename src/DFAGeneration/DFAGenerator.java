@@ -80,7 +80,7 @@ public class DFAGenerator {
         for (Map.Entry<Integer, FollowPosTableEntry> entry: followPosTableEntries.entrySet()){
             int value = entry.getValue().position;
             boolean isAcceptingState = false;
-            if (entry.getValue().followpos == null){
+            if (entry.getValue().followpos.size() == 0){
                 isAcceptingState = true;
             }
             Set<Integer> positionSet = entry.getValue().followpos;
@@ -107,8 +107,6 @@ public class DFAGenerator {
                 StateArray[count] = StateList.get(count);
             }
             transitionMatrix.put(aDFAState,StateArray);
-            System.out.println(aDFAState.index);
-            System.out.println(StateArray);
         }
     }
 

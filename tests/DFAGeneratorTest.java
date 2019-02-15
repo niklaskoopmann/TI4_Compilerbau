@@ -114,10 +114,11 @@ public class DFAGeneratorTest {
         parsingArray5[0] = TestState6;
         tmpTransitionMatrix.put(TestState5,parsingArray5);
 
-        tmpTransitionMatrix.put(TestState6,null);
+        DFAState[] parsingArray6 = new DFAState[0];
+        tmpTransitionMatrix.put(TestState6,parsingArray6);
 
 
-        assertEquals( dfaGen.getTransitionMatrix(),tmpTransitionMatrix);
+        assertEquals( tmpTransitionMatrix,dfaGen.getTransitionMatrix());
     }
 
 }
