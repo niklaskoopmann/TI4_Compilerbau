@@ -2,6 +2,10 @@ package DFAGeneration;
 
 import java.util.*;
 
+/*
+Author 9032365
+ */
+
 public class DFAGenerator {
 
     private SortedSet<String> alphabet;
@@ -33,7 +37,7 @@ public class DFAGenerator {
     }
 
     public void generateTransitionMatrix(SortedMap<Integer, FollowPosTableEntry> followPosTableEntries) {
-        for (int i; i <= followPosTableEntries.lastKey();i++) {
+        for (int i = 0; i <= followPosTableEntries.lastKey(); i++) {
             //jeder entry mit dem key ist der gleiche Zustand, also ein State objekt,
             //jeder Followpos wird als folgezustand erstellt
             for (Map.Entry<Integer, FollowPosTableEntry> entry: followPosTableEntries.entrySet()) {
