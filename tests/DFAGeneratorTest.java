@@ -57,6 +57,57 @@ public class DFAGeneratorTest {
     @Test
     void generateTransitionMatrixTest (){
         dfaGen.generateTransitionMatrix(followPosTabEntries);
+        Map<DFAState, DFAState[]> tmpTransitionMatrix;
+        tmpTransitionMatrix = new HashMap<>();
+
+
+        //Erstellen aller States
+        Set<Integer> TestS1Set = new HashSet<>();
+        TestS1Set.add(1);
+        TestS1Set.add(2);
+        TestS1Set.add(3);
+        DFAState TestState1 = new DFAState(1,false,TestS1Set);
+        Set<Integer> TestS2Set = new HashSet<>();
+        TestS2Set.add(1);
+        TestS2Set.add(2);
+        TestS2Set.add(3);
+        DFAState TestState2 = new DFAState(1,false,TestS2Set);
+        Set<Integer> TestS3Set = new HashSet<>();
+        TestS3Set.add(4);
+        DFAState TestState3 = new DFAState(1,false,TestS3Set);
+        Set<Integer> TestS4Set = new HashSet<>();
+        TestS4Set.add(5);
+        DFAState TestState4 = new DFAState(1,false,TestS4Set);
+        Set<Integer> TestS5Set = new HashSet<>();
+        TestS5Set.add(6);
+        DFAState TestState5 = new DFAState(1,false,TestS5Set);
+        Set<Integer> TestS6Set = new HashSet<>();
+        DFAState TestState6 = new DFAState(1,true,TestS6Set);
+
+        //Erstellen der State Arrays als followingStates für jeden State
+        DFAState[] parsingArray1 = new DFAState[3];
+        parsingArray1[0] = TestState1;
+        parsingArray1[1] = TestState2;
+        parsingArray1[2] = TestState3;
+        tmpTransitionMatrix.put(TestState1,parsingArray1);
+        DFAState[] parsingArray2 = new DFAState[3];
+        parsingArray2[0] = TestState1;
+        parsingArray2[1] = TestState2;
+        parsingArray2[2] = TestState3;
+        tmpTransitionMatrix.put(TestState2,parsingArray2);
+        DFAState[] parsingArray3 = new DFAState[1];
+        parsingArray3[0] = TestState4;
+        tmpTransitionMatrix.put(TestState3,parsingArray3);
+        DFAState[] parsingArray4 = new DFAState[1];
+        parsingArray4[0] = TestState5;
+        tmpTransitionMatrix.put(TestState4,parsingArray4);
+        DFAState[] parsingArray5 = new DFAState[1];
+        parsingArray5[0] = TestState6;
+        tmpTransitionMatrix.put(TestState5,parsingArray5);
+        tmpTransitionMatrix.put(TestState6,null);
+
+
+        assertEquals( dfaGen.getTransitionMatrix(),tmpTransitionMatrix);
     }
 
 }
