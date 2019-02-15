@@ -17,8 +17,6 @@ public class DFAGenerator {
     public DFAGenerator() {
         this.alphabet = new TreeSet<String>();
         this.transitionMatrix = new HashMap<DFAState, DFAState[]>();
-
-        // CAUTION: Initialize ALL ArrayLists in Map with the SAME LENGTH, i. e. the number of ELEMENTS IN THE ALPHABET!
     }
 
     public void generateAlphabet (SortedMap<Integer, FollowPosTableEntry> followPosTableEntries){

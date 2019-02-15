@@ -1,5 +1,5 @@
 /**
- * @author 6495875
+ * @author Lisa Krauß
  */
 
 package Visitor;
@@ -12,13 +12,20 @@ import java.util.Set;
 public class FirstVisitor implements Visitor {
     // all objects share same variable
     private static int positionCounter = 0;
+    private int leafPositionCounter = 1;
 
 
     public void visit(OperandNode node) {
+        node.position = leafPositionCounter;
+        leafPositionCounter++;
+
         node.nullable = isOperandNullable(node);
 
-        node.firstpos.addAll(setFirstAndLastPos(node));
-        node.lastpos.addAll(setFirstAndLastPos(node));
+        // node.firstpos.addAll(setFirstAndLastPos(node));
+        // node.lastpos.addAll(setFirstAndLastPos(node));
+
+        node.firstpos.add(node.position);
+        node.lastpos.add(node.position);
     }
 
     public void visit(BinOpNode node) {
