@@ -25,8 +25,8 @@ public class FirstVisitorTests {
         OperandNode node2 = new OperandNode("epsilon");
 
         // assert statements
-        assertEquals(false, tester.isOperandNullable(node));
-        assertEquals(true, tester.isOperandNullable(node2));
+        assertFalse(tester.isOperandNullable(node));
+        assertTrue(tester.isOperandNullable(node2));
     }
 
     @Test
