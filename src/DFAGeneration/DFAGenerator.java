@@ -51,6 +51,7 @@ public class DFAGenerator {
             DFAState tmpState = new DFAState(value,isAcceptingState,positionSet);
             if (isFirstState){
                 tmpState.isInitialState=true;
+                this.initialState = tmpState;
                 isFirstState = false;
             }
             allUniqueStates.add(tmpState);

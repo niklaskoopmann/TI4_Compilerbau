@@ -2,7 +2,6 @@ import DFAGeneration.DFAGenerator;
 import DFAGeneration.DFAState;
 import DFAGeneration.GenericLexer;
 import Parser.TopDownParser;
-import SyntaxTree.SyntaxNode;
 import SyntaxTree.Visitable;
 import Visitor.FirstVisitor;
 import Visitor.SecondVisitor;
@@ -11,13 +10,13 @@ import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- *
  * for whole test class:
- * @author Chiara Kramer (8033039)
  *
+ * @author Chiara Kramer (8033039)
  */
 
 class GenericLexerTest {
@@ -36,6 +35,7 @@ class GenericLexerTest {
     private SecondVisitor testSecondVisitor;
     private GenericLexer testGenericLexer;
     private DFAGenerator testDFAgenerator;
+    private ArrayList<String>[] testAlphabets;
     private String[] regExps;
     private HashMap<String, ArrayList<String>> acceptingWords;
     private HashMap<String, ArrayList<String>> refusingWords;
@@ -48,88 +48,89 @@ class GenericLexerTest {
                 "(a(a|b)*a)#",
                 "((a|b)*a(a|b)(a|b))#",
                 "(a*ba*ba*ba*)#",
-                "((aa|bb)*((ab|ba)(aa|bb)*(ab|ba)(aa|bb)*)*)#",
+                //"((aa|bb)*((ab|ba)(aa|bb)*(ab|ba)(aa|bb)*)*)#",
                 "(a|b*c)#",
                 "((a|b)*abb)#",
                 "((a|b)*a(a|b))#",
                 "((abcd|abc)+)#",
                 "((a|ab)?ba)#",
                 "(aa*a+)#",
-                "((a|b)*a(a|b)(a|b)?(a|b)+(a|b))#",
-                "(a*b*c*d*e)#"
+                "((a|b)*a(a|b)(a|b)?(a|b)+(a|b))#"//,
+                //"(a*b*c*d*e)#"
         };
 
         // some random Strings accepted for each regex
-        acceptingWords = new HashMap<String, ArrayList<String>>();
-        refusingWords = new HashMap<String, ArrayList<String>>();
+        this.acceptingWords = new HashMap<String, ArrayList<String>>();
+        this.refusingWords = new HashMap<String, ArrayList<String>>();
+
+        // init testAlphabet array
+        this.testAlphabets = new ArrayList[regExps.length];
+
+        // init testTransitionMatrix map
+        testTransitionMatrixForEachRegex = new HashMap<>();
 
         // fill acceptingWords with values
-        for(int i = 0; i < regExps.length; i++){
+        for (int i = 0; i < regExps.length; i++) {
 
             // parse a regex
             testTopDownParser = new TopDownParser(regExps[i]);
             Visitable syntaxTreeRootNode = testTopDownParser.start();
 
             // visit generated syntax tree
-                // first visitor
+            // first visitor
             testFirstVisitor = new FirstVisitor();
             testFirstVisitor.visitTreeNodes(syntaxTreeRootNode);
 
-                // second visitor
+            // second visitor
             testSecondVisitor = new SecondVisitor();
             testSecondVisitor.visitTreeNodes(syntaxTreeRootNode);
 
             // generate DFA from data
             testDFAgenerator = new DFAGenerator();
+            testDFAgenerator.generateAlphabet(testSecondVisitor.getFollowPosTableEntries());
             testDFAgenerator.generateTransitionMatrix(testSecondVisitor.getFollowPosTableEntries());
 
             // get transition table and alphabet from DFA generator
             testTransitionMatrix = testDFAgenerator.getTransitionMatrix();
-            SortedSet<String> testAlphabet = testDFAgenerator.getAlphabet();
+            SortedSet<String> testAlphabetSet = testDFAgenerator.getAlphabet();
+            this.testAlphabets[i] = new ArrayList<String>();
+            this.testAlphabets[i].addAll(testAlphabetSet);
 
             // add current regex and corresponding transition matrix to map
-            testTransitionMatrixForEachRegex = new HashMap<>();
             testTransitionMatrixForEachRegex.put(regExps[i], testTransitionMatrix);
 
             // fill word list with a lot of random accepted words
             ArrayList<String> wordsToAccept = new ArrayList<String>();
-            for(int j = 0; j < 100000; j++){
+            while (wordsToAccept.size() < 100) {
 
-                DFAState currentState = testDFAgenerator.getInitialState();
+                //int randomStringLength = (int)(Math.random() * Integer.MAX_VALUE); // takes some time...
+                int randomStringLength = (int) (Math.random() * 10); // takes less time...
 
-                String word = "";
+                String acceptedWord = "";
 
-                while(!currentState.isAcceptingState){ // works because no error states are being generated
+                // add random characters from the alphabet to acceptedWord
+                for (int k = 0; k < randomStringLength; k++)
+                    acceptedWord += testAlphabetSet.toArray()[(int) (Math.random() * testAlphabetSet.size()) % (testAlphabetSet.size() - 1) + 1];
 
-                    int numberOfFollowingStates = 0;
-
-                    // count following indices
-                    for (DFAState state : (DFAState[])testTransitionMatrix.values().toArray()[currentState.index]) if(state != null) numberOfFollowingStates++;
-
-                    // choose random next node
-                    DFAState lastState = currentState;
-                    currentState = (DFAState)testTransitionMatrix.keySet().toArray()[(int)(Math.random() * numberOfFollowingStates) + 1];
-
-                    // add letter to word
-                    word += testAlphabet.toArray()[Arrays.asList(testTransitionMatrix.get(lastState)).indexOf(currentState)];
-                }
-
-                wordsToAccept.add(word);
+                if (acceptedWord.matches(regExps[i].substring(1, regExps[i].length() - 2)))
+                    wordsToAccept.add(acceptedWord); // assuming the System method works flawlessly
             }
             acceptingWords.put(regExps[i], wordsToAccept);
 
             // fill refusing word list with random words that do not match the regular expression
             ArrayList<String> wordsToRefuse = new ArrayList<String>();
-            for(int j = 0; j < 10000; j++){
+            while (wordsToRefuse.size() < 100) {
 
-                int randomStringLength = (int)(Math.random() * Integer.MAX_VALUE);
+                //int randomStringLength = (int)(Math.random() * Integer.MAX_VALUE); // takes some time...
+                int randomStringLength = (int) (Math.random() * 10); // takes less time...
 
                 String refusedWord = "";
 
                 // add random printable ASCII characters to the string
-                for(int k = 0; k < randomStringLength; k++) refusedWord += (char)((int)(Math.random() * 94) + 32);
+                for (int k = 0; k < randomStringLength; k++) refusedWord += (char) ((int) (Math.random() * 94) + 32);
 
-                if(!refusedWord.matches(regExps[i])) wordsToRefuse.add(refusedWord); // assuming the System method works flawlessly
+                if (!refusedWord.matches(regExps[i]))
+                    wordsToRefuse.add(refusedWord); // assuming the System method works flawlessly
             }
             refusingWords.put(regExps[i], wordsToRefuse);
         }
@@ -145,13 +146,19 @@ class GenericLexerTest {
             for (String word : acceptingWords.get(regex)) {
 
                 testGenericLexer = new GenericLexer(testTransitionMatrix); // reset lexer
+                testGenericLexer.setDfaGenerator(testDFAgenerator);
+                testGenericLexer.setAlphabet(testAlphabets[Arrays.asList(regExps).indexOf(regex)]);
+                testGenericLexer.setTransitionMatrix(testTransitionMatrix);
 
-                assertTrue(testGenericLexer.match(word));
+                assertTrue(testGenericLexer.match(word + "#"));
             }
 
             for (String word : refusingWords.get(regex)) {
 
                 testGenericLexer = new GenericLexer(testTransitionMatrix); // reset lexer
+                testGenericLexer.setDfaGenerator(testDFAgenerator);
+                testGenericLexer.setAlphabet(testAlphabets[Arrays.asList(regExps).indexOf(regex)]);
+                testGenericLexer.setTransitionMatrix(testTransitionMatrix);
 
                 assertFalse(testGenericLexer.match(word));
             }
