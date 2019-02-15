@@ -8,16 +8,18 @@ import java.util.SortedMap;
 /**
  *
  * for whole class:
- * @author Chiara Kramer (8033039)
+ * @author Chiara Kramer
  *
  */
 
 public class GenericLexer {
 
+    //Attributes
     private Map<DFAState, DFAState[]> transitionMatrix;
     private DFAGenerator dfaGenerator;
     private ArrayList<String> alphabet;
 
+    //Constructor
     public GenericLexer(Map<DFAState, DFAState[]> transitionMatrix){
 
         this.transitionMatrix = transitionMatrix;
@@ -25,6 +27,7 @@ public class GenericLexer {
         this.alphabet = new ArrayList<String>(dfaGenerator.getAlphabet());
     }
 
+    //Checks if a string is accepted by generated DFA
     public boolean match(String toCheck){
 
         char[] toCheckArray = toCheck.toCharArray();
@@ -47,6 +50,8 @@ public class GenericLexer {
 
         else return false;
     }
+
+    //Getter and setter
 
     public Map<DFAState, DFAState[]> getTransitionMatrix() {
         return transitionMatrix;
