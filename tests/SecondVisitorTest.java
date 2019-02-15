@@ -177,6 +177,10 @@ class SecondVisitorTest {
     @Test // BinOpNode
     void visit2() {
 
+        // For all Binary Operation Nodes except concatenation (i. e. , the Second Visitor should do nothing.
 
+        // Basically the same procedure as for the Kleene plus and star:
+
+        bon = new BinOpNode("")
     }
 }
