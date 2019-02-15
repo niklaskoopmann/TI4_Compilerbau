@@ -7,11 +7,13 @@ public class DFAState implements Comparable<DFAState>{
     public final int index;
     public final Boolean isAcceptingState;
     public final Set<Integer> positionsSet;
+    public Boolean isInitialState;
 
     public DFAState(int index, boolean isAcceptingState, Set<Integer> positionsSet) {
         this.index = index;
         this.isAcceptingState = isAcceptingState;
         this.positionsSet = positionsSet;
+        this.isInitialState = false;
     }
 
     @Override
