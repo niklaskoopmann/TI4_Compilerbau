@@ -69,14 +69,14 @@ public class SecondVisitor implements Visitor {
     public void visit(BinOpNode node) {
 
         // if operation is concatenation
-        if (node.operator.equals("°")) {
+        if (node.operator.equals("°") && !(node.left == null || node.right == null)) {
 
             // iterate through all nodes in lastpos of this node's left child
             for (int lastPosValue : ((SyntaxNode) node.left).lastpos) {
 
                 // followpos(node at lastPosValue) += lastpos(right child)
                 // and update entry set
-                followPosTableEntries.get(lastPosValue).followpos.addAll(((SyntaxNode) node.right).lastpos);
+                followPosTableEntries.get(lastPosValue).followpos.addAll(((SyntaxNode) node.right).firstpos);
             }
         }
     }

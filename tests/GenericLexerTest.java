@@ -80,13 +80,14 @@ class GenericLexerTest {
 
             // generate DFA from data
             testDFAgenerator = new DFAGenerator();
-            //testDFAgenerator.doSomething(); // let dfa generator create transition matrix
+            testDFAgenerator.generateTransitionMatrix(testSecondVisitor.getFollowPosTableEntries());
 
             // get transition table and alphabet from DFA generator
             testTransitionMatrix = testDFAgenerator.getTransitionMatrix();
             SortedSet<String> testAlphabet = testDFAgenerator.getAlphabet();
 
             // add current regex and corresponding transition matrix to map
+            testTransitionMatrixForEachRegex = new HashMap<>();
             testTransitionMatrixForEachRegex.put(regExps[i], testTransitionMatrix);
 
             // fill word list with a lot of random words
@@ -97,7 +98,7 @@ class GenericLexerTest {
 
                 String word = "";
 
-                while(true){ // seemingly infinite loop tolerable!
+                while(!currentState.isAcceptingState){ // works because no error states are being generated
 
                     int numberOfFollowingStates = 0;
 
@@ -110,8 +111,6 @@ class GenericLexerTest {
 
                     // add letter to word
                     word += testAlphabet.toArray()[Arrays.asList(testTransitionMatrix.get(lastState)).indexOf(currentState)];
-
-                    if(currentState.isAcceptingState && Math.random() > 0.5) break;
                 }
 
                 words.add(word);
