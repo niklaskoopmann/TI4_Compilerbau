@@ -1,7 +1,5 @@
 package DFAGeneration;
 
-import javax.swing.plaf.nimbus.State;
-import java.lang.reflect.Array;
 import java.util.*;
 
 /*
@@ -21,8 +19,8 @@ public class DFAGenerator {
 
     //Aus den übergebenen Tabelle wird das allgemeine Alphabet für den DEA/DFA erstellt
     //jedes einzigartige Symbol wird in dem TreeSet alphabet abgebildet
-    public void generateAlphabet (SortedMap<Integer, FollowPosTableEntry> followPosTableEntries){
-        for (Map.Entry<Integer, FollowPosTableEntry> entry: followPosTableEntries.entrySet()){
+    public void generateAlphabet(SortedMap<Integer, FollowPosTableEntry> followPosTableEntries) {
+        for (Map.Entry<Integer, FollowPosTableEntry> entry : followPosTableEntries.entrySet()) {
             boolean stringExists = false;
             for (String referenceString : this.alphabet) {
                 if (entry.getValue().symbol == referenceString) {
@@ -37,7 +35,7 @@ public class DFAGenerator {
 
     //Funktion zum Erstellen der transition-matrix
     //Die Funktion erstellt aus der übergebenen Tabelle die Einzelnen States und setzt schließlich diese zur Matrix zusammen
-    public void generateTransitionMatrix (SortedMap<Integer, FollowPosTableEntry> followPosTableEntries){
+    public void generateTransitionMatrix(SortedMap<Integer, FollowPosTableEntry> followPosTableEntries) {
         //Zuerst werden alle möglichen States erstellt
         boolean isFirstState = true;
         ArrayList<DFAState> allUniqueStates = new ArrayList<>();
@@ -58,7 +56,7 @@ public class DFAGenerator {
         }
 
         //Für jeden State werden nun die following States geschrieben
-        for (DFAState aDFAState : allUniqueStates){
+        for (DFAState aDFAState : allUniqueStates) {
             ArrayList<DFAState> StateList = new ArrayList<>();
             for (int i : aDFAState.positionsSet) {
                 for (DFAState followingState : allUniqueStates) {
