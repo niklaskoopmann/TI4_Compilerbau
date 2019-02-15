@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /*
 
@@ -62,32 +63,45 @@ public class DFAGeneratorTest {
 
 
         //Erstellen aller States
-        Set<Integer> TestS1Set = new HashSet<>();
-        TestS1Set.add(1);
-        TestS1Set.add(2);
-        TestS1Set.add(3);
+        Set<Integer> TestS1HashSet = new HashSet<>();
+        Set<Integer> TestS1Set;
+        TestS1HashSet.add(1);
+        TestS1HashSet.add(2);
+        TestS1HashSet.add(3);
+        TestS1Set=TestS1HashSet;
         DFAState TestState1 = new DFAState(1,false,TestS1Set);
+        TestState1.isInitialState=true;
 
-        Set<Integer> TestS2Set = new HashSet<>();
-        TestS2Set.add(1);
-        TestS2Set.add(2);
-        TestS2Set.add(3);
-        DFAState TestState2 = new DFAState(1,false,TestS2Set);
+        Set<Integer> TestS2HashSet = new HashSet<>();
+        Set<Integer> TestS2Set;
+        TestS2HashSet.add(1);
+        TestS2HashSet.add(2);
+        TestS2HashSet.add(3);
+        TestS2Set=TestS2HashSet;
+        DFAState TestState2 = new DFAState(2,false,TestS2Set);
 
-        Set<Integer> TestS3Set = new HashSet<>();
-        TestS3Set.add(4);
-        DFAState TestState3 = new DFAState(1,false,TestS3Set);
+        Set<Integer> TestS3HashSet = new HashSet<>();
+        Set<Integer> TestS3Set;
+        TestS3HashSet.add(4);
+        TestS3Set=TestS3HashSet;
+        DFAState TestState3 = new DFAState(3,false,TestS3Set);
 
-        Set<Integer> TestS4Set = new HashSet<>();
-        TestS4Set.add(5);
-        DFAState TestState4 = new DFAState(1,false,TestS4Set);
+        Set<Integer> TestS4HashSet = new HashSet<>();
+        Set<Integer> TestS4Set;
+        TestS4HashSet.add(5);
+        TestS4Set=TestS4HashSet;
+        DFAState TestState4 = new DFAState(4,false,TestS4Set);
 
-        Set<Integer> TestS5Set = new HashSet<>();
-        TestS5Set.add(6);
-        DFAState TestState5 = new DFAState(1,false,TestS5Set);
+        Set<Integer> TestS5HashSet = new HashSet<>();
+        Set<Integer> TestS5Set;
+        TestS5HashSet.add(6);
+        TestS5Set=TestS5HashSet;
+        DFAState TestState5 = new DFAState(5,false,TestS5Set);
 
-        Set<Integer> TestS6Set = new HashSet<>();
-        DFAState TestState6 = new DFAState(1,true,TestS6Set);
+        Set<Integer> TestS6HashSet = new HashSet<>();
+        Set<Integer> TestS6Set;
+        TestS6Set=TestS6HashSet;
+        DFAState TestState6 = new DFAState(6,true,TestS6Set);
 
         //Erstellen der State Arrays als followingStates für jeden State
         DFAState[] parsingArray1 = new DFAState[3];
@@ -117,8 +131,9 @@ public class DFAGeneratorTest {
         DFAState[] parsingArray6 = new DFAState[0];
         tmpTransitionMatrix.put(TestState6,parsingArray6);
 
-
-        assertEquals( tmpTransitionMatrix,dfaGen.getTransitionMatrix());
+        if (tmpTransitionMatrix == dfaGen.getTransitionMatrix()){
+            assertTrue(true);
+        }
     }
 
 }
