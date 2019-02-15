@@ -19,9 +19,9 @@ public class DFAGenerator {
         this.transitionMatrix = new HashMap<DFAState, DFAState[]>();
     }
 
+    //Aus den übergebenen Tabelle wird das allgemeine Alphabet für den DEA/DFA erstellt
+    //jedes einzigartige Symbol wird in dem TreeSet alphabet abgebildet
     public void generateAlphabet (SortedMap<Integer, FollowPosTableEntry> followPosTableEntries){
-        //alle followPosTableEntries durchgehen, wenn FollowPosTableEntry.symbol schon
-        //existiert weiter, wenn nicht zu alphabet adden
         for (Map.Entry<Integer, FollowPosTableEntry> entry: followPosTableEntries.entrySet()){
             boolean stringExists = false;
             for (String referenceString:this.alphabet){
@@ -35,46 +35,10 @@ public class DFAGenerator {
         }
     }
 
-    /*
-    public void secgenerateTransitionMatrix(SortedMap<Integer, FollowPosTableEntry> followPosTableEntries) {
-        //for (int i = 0; i <= followPosTableEntries.lastKey(); i++) {
-            //jeder entry mit dem key ist der gleiche Zustand, also ein State objekt,
-            //jeder Followpos wird als folgezustand erstellt
-            for (Map.Entry<Integer, FollowPosTableEntry> entry: followPosTableEntries.entrySet()) {
-                ArrayList<DFAState> StateList = new ArrayList<>();
-                int value = entry.getValue().position;
-                boolean isAcceptingState = false;
-                if (entry.getValue().followpos == null){
-                    isAcceptingState = true;
-                }
-                Set<Integer> positionSet = entry.getValue().followpos;
-                DFAState tmpState = new DFAState(value,isAcceptingState,positionSet);
-                for ( int followposInt : entry.getValue().followpos){
-                        if (followEntry.getKey()==followposInt){
-                            int followValue = followEntry.getValue().position;
-                            boolean followIsAcceptingState = false;
-                            if (followEntry.getValue().followpos == null){
-                                followIsAcceptingState = true;
-                            }
-                            Set<Integer> followPositionSet = entry.getValue().followpos;
-                            DFAState followState = new DFAState(followValue,followIsAcceptingState,followPositionSet);
-                            StateList.add(followState);
-                        }
-                }
-
-                DFAState[] StateArray = new DFAState[StateList.size()];
-                for (int count = 0; count < StateArray.length; count++){
-                    StateArray[count] = StateList.get(count);
-                }
-                transitionMatrix.put(tmpState,StateArray);
-                System.out.println(tmpState.index);
-            }
-        //}
-    }
-    */
-
+    //Funktion zum Erstellen der transition-matrix
+    //Die Funktion erstellt aus der übergebenen Tabelle die Einzelnen States und setzt schließlich diese zur Matrix zusammen
     public void generateTransitionMatrix (SortedMap<Integer, FollowPosTableEntry> followPosTableEntries){
-        //Zuerst erstellen aller möglichen States
+        //Zuerst werden alle möglichen States erstellt
         boolean isFirstState = true;
         ArrayList<DFAState> allUniqueStates = new ArrayList<>();
         for (Map.Entry<Integer, FollowPosTableEntry> entry: followPosTableEntries.entrySet()){
@@ -92,7 +56,7 @@ public class DFAGenerator {
             allUniqueStates.add(tmpState);
         }
 
-        //Für jeden State werden nun die following states geschrieben
+        //Für jeden State werden nun die following States geschrieben
         for (DFAState aDFAState : allUniqueStates){
             ArrayList<DFAState> StateList = new ArrayList<>();
             for (int i :aDFAState.positionsSet){
