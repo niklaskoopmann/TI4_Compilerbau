@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /*
-
 Author Simon Schwab
  */
 
@@ -19,7 +18,7 @@ public class DFAGeneratorTest {
     private DFAGenerator dfaGen;
     private SortedMap<Integer, FollowPosTableEntry> followPosTabEntries;
 
-
+    //erstellen der benötigten Tabelle für den Funktionsaufruf
     @BeforeEach
     void setUp() {
         followPosTabEntries = new TreeMap<>();
@@ -48,6 +47,7 @@ public class DFAGeneratorTest {
 
     }
 
+    //Unit-Test zum Überprüfen des Alphabet-Erstellers
     @Test
     void generateAlphabetTest() {
         SortedSet<String> alphabet = new TreeSet<>();
@@ -57,6 +57,7 @@ public class DFAGeneratorTest {
         assertEquals(dfaGen.getAlphabet(), alphabet);
     }
 
+    //Unit-Test zum Überprüfen des Matrix-Erstellers
     @Test
     void generateTransitionMatrixTest() {
         dfaGen.generateTransitionMatrix(followPosTabEntries);
