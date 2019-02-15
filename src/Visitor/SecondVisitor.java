@@ -11,7 +11,7 @@ import java.util.TreeMap;
 /**
  * for whole class:
  *
- * @author Niklas Koopmann (9742503)
+ * @author Niklas Koopmann
  **/
 
 public class SecondVisitor implements Visitor {
@@ -53,8 +53,6 @@ public class SecondVisitor implements Visitor {
 
     public void visit(UnaryOpNode node) {
 
-        Set<Integer> followPosValues = new HashSet<>(); // todo Why did I add this???
-
         // if operation is Kleene star or Kleene plus
         if (node.operator.equals("*") || node.operator.equals("+")) {
 
@@ -63,7 +61,6 @@ public class SecondVisitor implements Visitor {
 
                 // followpos(node at lastPosValue) += firstpos(node)
                 // and update entry set
-                // todo How to update the node at the position lastPosValue?
                 followPosTableEntries.get(lastPosValue).followpos.addAll(node.firstpos);
             }
         }

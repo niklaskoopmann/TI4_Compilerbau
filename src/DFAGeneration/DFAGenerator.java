@@ -27,10 +27,9 @@ public class DFAGenerator {
             for (String referenceString:this.alphabet){
                 if (entry.getValue().symbol == referenceString){
                     stringExists = true;
-                    break;
                 }
             }
-            if (!stringExists){
+            if ((!stringExists)&&(entry.getValue().symbol!=null)){
                 this.alphabet.add(entry.getValue().symbol);
             }
         }
@@ -63,7 +62,10 @@ public class DFAGenerator {
                         }
                     }
                 }
-                DFAState[] StateArray = (DFAState[]) StateList.toArray();
+                DFAState[] StateArray = new DFAState[StateList.size()];
+                for (int count = 0; count < StateArray.length; count++){
+                    StateArray[count] = StateList.get(count);
+                }
                 transitionMatrix.put(tmpState,StateArray);
             }
         }
