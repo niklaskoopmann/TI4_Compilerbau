@@ -2,6 +2,7 @@ package DFAGeneration;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.SortedMap;
 
@@ -24,7 +25,7 @@ public class GenericLexer {
 
         this.transitionMatrix = transitionMatrix;
         this.dfaGenerator = new DFAGenerator();
-        this.alphabet = new ArrayList<String>(dfaGenerator.getAlphabet());
+        this.alphabet = new ArrayList<String>();
     }
 
     //Checks if a string is accepted by generated DFA
@@ -36,6 +37,7 @@ public class GenericLexer {
 
         for (char letter : toCheckArray) {
 
+            // works since alphabet is sorted alphabetically and the state arrays in the matrix fit the alphabet sorting
             DFAState nextState = transitionMatrix.get(currentState)[alphabet.indexOf(letter + "")];
 
             if(nextState != null){

@@ -8,10 +8,7 @@ import Visitor.SecondVisitor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.SortedSet;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -38,6 +35,7 @@ class GenericLexerTest {
     private SecondVisitor testSecondVisitor;
     private GenericLexer testGenericLexer;
     private DFAGenerator testDFAgenerator;
+    private ArrayList<String>[] testAlphabets;
     private String[] regExps;
     private HashMap<String, ArrayList<String>> acceptingWords;
     private HashMap<String, ArrayList<String>> refusingWords;
@@ -62,13 +60,17 @@ class GenericLexerTest {
         };
 
         // some random Strings accepted for each regex
-        acceptingWords = new HashMap<String, ArrayList<String>>();
-        refusingWords = new HashMap<String, ArrayList<String>>();
+        this.acceptingWords = new HashMap<String, ArrayList<String>>();
+        this.refusingWords = new HashMap<String, ArrayList<String>>();
+
+        // init testAlphabet array
+        this.testAlphabets = new ArrayList[regExps.length];
+
+        // init testTransitionMatrix map
+        testTransitionMatrixForEachRegex = new HashMap<>();
 
         // fill acceptingWords with values
         for (int i = 0; i < regExps.length; i++) {
-
-            System.out.println(regExps[i]); // debug
 
             // parse a regex
             testTopDownParser = new TopDownParser(regExps[i]);
@@ -90,38 +92,37 @@ class GenericLexerTest {
 
             // get transition table and alphabet from DFA generator
             testTransitionMatrix = testDFAgenerator.getTransitionMatrix();
-            SortedSet<String> testAlphabet = testDFAgenerator.getAlphabet();
+            SortedSet<String> testAlphabetSet = testDFAgenerator.getAlphabet();
+            this.testAlphabets[i] = new ArrayList<String>();
+            this.testAlphabets[i].addAll(testAlphabetSet);
 
             // add current regex and corresponding transition matrix to map
-            testTransitionMatrixForEachRegex = new HashMap<>();
             testTransitionMatrixForEachRegex.put(regExps[i], testTransitionMatrix);
 
             // fill word list with a lot of random accepted words
             ArrayList<String> wordsToAccept = new ArrayList<String>();
-            while (wordsToAccept.size() < 1000) {
+            while (wordsToAccept.size() < 100) {
 
                 //int randomStringLength = (int)(Math.random() * Integer.MAX_VALUE); // takes some time...
-                int randomStringLength = (int) (Math.random() * 100); // takes less time...
+                int randomStringLength = (int) (Math.random() * 10); // takes less time...
 
                 String acceptedWord = "";
 
                 // add random characters from the alphabet to acceptedWord
                 for (int k = 0; k < randomStringLength; k++)
-                    acceptedWord += testAlphabet.toArray()[(int) (Math.random() * testAlphabet.size()) % (testAlphabet.size() - 1) + 1];
+                    acceptedWord += testAlphabetSet.toArray()[(int) (Math.random() * testAlphabetSet.size()) % (testAlphabetSet.size() - 1) + 1];
 
                 if (acceptedWord.matches(regExps[i].substring(1, regExps[i].length() - 2)))
                     wordsToAccept.add(acceptedWord); // assuming the System method works flawlessly
             }
             acceptingWords.put(regExps[i], wordsToAccept);
 
-            System.out.println(wordsToAccept.size()); // debug
-
             // fill refusing word list with random words that do not match the regular expression
             ArrayList<String> wordsToRefuse = new ArrayList<String>();
-            while (wordsToRefuse.size() < 1000) {
+            while (wordsToRefuse.size() < 100) {
 
                 //int randomStringLength = (int)(Math.random() * Integer.MAX_VALUE); // takes some time...
-                int randomStringLength = (int) (Math.random() * 100); // takes less time...
+                int randomStringLength = (int) (Math.random() * 10); // takes less time...
 
                 String refusedWord = "";
 
@@ -132,11 +133,7 @@ class GenericLexerTest {
                     wordsToRefuse.add(refusedWord); // assuming the System method works flawlessly
             }
             refusingWords.put(regExps[i], wordsToRefuse);
-
-            System.out.println(wordsToRefuse.size()); // debug
         }
-
-        System.out.println("SETUP FINISHED!");
     }
 
     @Test
@@ -149,13 +146,19 @@ class GenericLexerTest {
             for (String word : acceptingWords.get(regex)) {
 
                 testGenericLexer = new GenericLexer(testTransitionMatrix); // reset lexer
+                testGenericLexer.setDfaGenerator(testDFAgenerator);
+                testGenericLexer.setAlphabet(testAlphabets[Arrays.asList(regExps).indexOf(regex)]);
+                testGenericLexer.setTransitionMatrix(testTransitionMatrix);
 
-                assertTrue(testGenericLexer.match(word));
+                assertTrue(testGenericLexer.match(word + "#"));
             }
 
             for (String word : refusingWords.get(regex)) {
 
                 testGenericLexer = new GenericLexer(testTransitionMatrix); // reset lexer
+                testGenericLexer.setDfaGenerator(testDFAgenerator);
+                testGenericLexer.setAlphabet(testAlphabets[Arrays.asList(regExps).indexOf(regex)]);
+                testGenericLexer.setTransitionMatrix(testTransitionMatrix);
 
                 assertFalse(testGenericLexer.match(word));
             }
