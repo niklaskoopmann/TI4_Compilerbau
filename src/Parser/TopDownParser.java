@@ -8,26 +8,37 @@ import SyntaxTree.Visitable;
 /**
  * for whole class:
  *
- * @author Lars Roth (4102770)
+ * @author Lars Roth
  **/
 
 public class TopDownParser {
-    private String string;
+    private final String string;
     private char symbol;
     private int i;
 
+    /**
+     * Constructer initalizes parser with regular expression given by parameter
+     * @param string the regular expression
+     */
     public TopDownParser(String string) {
         this.string = string;
         symbol = string.charAt(0);
         this.i = 0;
     }
 
+    /**
+     * This function iterates over the regular expression
+     */
     private void nextSymbol() {
         this.i++;
         if (this.i < string.length())
             symbol = string.charAt(i);
     }
 
+    /**
+     * This function starts the evaluation of the regular expression and sets the end node or throws an exception
+     * @return  Visitable object, which is the final syntax tree
+     */
     public Visitable start() {
         switch (symbol) {
             case '#':
@@ -40,6 +51,11 @@ public class TopDownParser {
         }
     }
 
+    /**
+     * This function realizes the RegExp -> Term RE in the parser rules
+     * @param node the parent node
+     * @return Visitable object, which is the syntax tree with the new node
+     */
     private Visitable regExp(Visitable node) {
         //nur bei 0-9, A-Z, a-z und (
         if ((symbol >= 'A' && symbol <= 'Z') || (symbol >= 'a' && symbol <= 'z') || (symbol >= '0' && symbol <= '9') || (symbol == '('))
@@ -49,6 +65,11 @@ public class TopDownParser {
         }
     }
 
+    /**
+     * This function realizes the Term -> FactorTerm or epsilon in the parser rules
+     * @param node the parent node
+     * @return Visitable object, which is the syntax tree with the new node
+     */
     private Visitable term(Visitable node) {
         if ((symbol >= 'A' && symbol <= 'Z') || (symbol >= 'a' && symbol <= 'z') || (symbol >= '0' && symbol <= '9') || (symbol == '(')) {
             Visitable termReturn;
@@ -65,6 +86,11 @@ public class TopDownParser {
         }
     }
 
+    /**
+     * This function realizes the Factor -> Elem HOp in the parser rules
+     * @param node the parent node
+     * @return Visitable object, which is the syntax tree with the new node
+     */
     private Visitable factor(Visitable node) {
         if ((symbol >= 'A' && symbol <= 'Z') || (symbol >= 'a' && symbol <= 'z') || (symbol >= '0' && symbol <= '9') || (symbol == '(')) {
             return hop(elem(null));
@@ -73,6 +99,11 @@ public class TopDownParser {
         }
     }
 
+    /**
+     * This function realizes the HOp rules in the parser rules
+     * @param node the parent node
+     * @return Visitable object, which is the syntax tree with the new node
+     */
     private Visitable hop(Visitable node) {
         switch (symbol) {
             case '*':
@@ -89,6 +120,11 @@ public class TopDownParser {
         }
     }
 
+    /**
+     * This function realizes the Elem rules in the parser rules
+     * @param node the parent node
+     * @return Visitable object, which is the syntax tree with the new node
+     */
     private Visitable elem(Visitable node) {
         if (symbol != '(') {
             return alphanum(null);
@@ -99,6 +135,11 @@ public class TopDownParser {
 
     }
 
+    /**
+     * This function realizes the Alphanum rules in the parser rules
+     * @param node the parent node
+     * @return Visitable object, which is the syntax tree with the new node
+     */
     private Visitable alphanum(Visitable node) {
         if ((symbol >= 'A' && symbol <= 'Z') || (symbol >= 'a' && symbol <= 'z') || (symbol >= '0' && symbol <= '9')) {
             Visitable opNode = new OperandNode(String.valueOf(symbol));
@@ -109,6 +150,11 @@ public class TopDownParser {
         }
     }
 
+    /**
+     * This function realizes the RE -> | TermRE or epsilon in the parser rules
+     * @param node the parent node
+     * @return Visitable object, which is the syntax tree with the new node
+     */
     private Visitable re(Visitable node) {
         switch (symbol) {
             case '|':
