@@ -38,10 +38,10 @@ class GenericLexerTest {
     private DFAGenerator testDFAgenerator;
     private String[] regExps;
     private HashMap<String, ArrayList<String>> acceptingWords;
-    private ArrayList<String> refusingWords;
+    private HashMap<String, ArrayList<String>> refusingWords;
 
     @BeforeEach
-    void setUp() { // todo declare other components as attributes
+    void setUp() {
 
         // test regular expressions, inspired by the Dragon Book
         regExps = new String[]{
@@ -61,6 +61,7 @@ class GenericLexerTest {
 
         // some random Strings accepted for each regex
         acceptingWords = new HashMap<String, ArrayList<String>>();
+        refusingWords = new HashMap<String, ArrayList<String>>();
 
         // fill acceptingWords with values
         for(int i = 0; i < regExps.length; i++){
@@ -90,8 +91,8 @@ class GenericLexerTest {
             testTransitionMatrixForEachRegex = new HashMap<>();
             testTransitionMatrixForEachRegex.put(regExps[i], testTransitionMatrix);
 
-            // fill word list with a lot of random words
-            ArrayList<String> words = new ArrayList<String>();
+            // fill word list with a lot of random accepted words
+            ArrayList<String> wordsToAccept = new ArrayList<String>();
             for(int j = 0; j < 100000; j++){
 
                 DFAState currentState = testDFAgenerator.getInitialState();
@@ -113,21 +114,24 @@ class GenericLexerTest {
                     word += testAlphabet.toArray()[Arrays.asList(testTransitionMatrix.get(lastState)).indexOf(currentState)];
                 }
 
-                words.add(word);
+                wordsToAccept.add(word);
             }
-            acceptingWords.put(regExps[i], words);
-        }
+            acceptingWords.put(regExps[i], wordsToAccept);
 
-        for(int i = 0; i < 1200000; i++){
+            // fill refusing word list with random words that do not match the regular expression
+            ArrayList<String> wordsToRefuse = new ArrayList<String>();
+            for(int j = 0; j < 10000; j++){
 
-            int randomStringLength = (int)(Math.random() * Integer.MAX_VALUE);
+                int randomStringLength = (int)(Math.random() * Integer.MAX_VALUE);
 
-            String refusedWord = "";
+                String refusedWord = "";
 
-            // add random printable ASCII characters to the string
-            for(int j = 0; j < randomStringLength; j++) refusedWord += (char)((int)(Math.random() * 94) + 32);
+                // add random printable ASCII characters to the string
+                for(int k = 0; k < randomStringLength; k++) refusedWord += (char)((int)(Math.random() * 94) + 32);
 
-            // todo: make sure it is refused by the lexer
+                if(!refusedWord.matches(regExps[i])) wordsToRefuse.add(refusedWord); // assuming the System method works flawlessly
+            }
+            refusingWords.put(regExps[i], wordsToRefuse);
         }
     }
 
@@ -143,6 +147,13 @@ class GenericLexerTest {
                 testGenericLexer = new GenericLexer(testTransitionMatrix); // reset lexer
 
                 assertTrue(testGenericLexer.match(word));
+            }
+
+            for (String word : refusingWords.get(regex)) {
+
+                testGenericLexer = new GenericLexer(testTransitionMatrix); // reset lexer
+
+                assertFalse(testGenericLexer.match(word));
             }
         }
     }
