@@ -1,5 +1,5 @@
 /**
- * @author 6495875
+ * @author Lisa Krauß
  */
 
 import SyntaxTree.BinOpNode;
