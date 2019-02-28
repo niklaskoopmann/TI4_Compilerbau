@@ -28,8 +28,8 @@ class GenericLexerTest {
 
      */
 
-    private Map<DFAState, DFAState[]> testTransitionMatrix;
-    private Map<String, Map<DFAState, DFAState[]>> testTransitionMatrixForEachRegex;
+    private SortedMap<DFAState, Map<String, DFAState>> testTransitionMatrix;
+    private Map<String, SortedMap<DFAState, Map<String, DFAState>>> testTransitionMatrixForEachRegex;
     private TopDownParser testTopDownParser;
     private FirstVisitor testFirstVisitor;
     private SecondVisitor testSecondVisitor;
