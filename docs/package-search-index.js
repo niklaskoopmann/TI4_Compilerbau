@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"Parser"}]
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"DFAGeneration"},{"l":"Parser"},{"l":"SyntaxTree"},{"l":"Visitor"}];updateSearchResults();
